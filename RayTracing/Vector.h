@@ -1,4 +1,7 @@
-class Vector {
+#ifndef VECTOR_H
+#define VECTOR_H
+class Vector
+{
 public:
 	Vector();
 	Vector(double coord1, double coord2, double coord3, bool cartesian);
@@ -28,3 +31,4 @@ private:
 	double _coord3;
 	bool _cartesian;
 };
+#endif
