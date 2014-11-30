@@ -24,7 +24,7 @@ public:
 	bool Vector::IsCartesian();
 	void Vector::PrintCoordinates();
 
-private:
+protected:
 
 	double _coord1;
 	double _coord2;

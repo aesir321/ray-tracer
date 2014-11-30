@@ -6,6 +6,7 @@ class Ray : public Vector
 {
  public :
   Ray();
+  Ray(double coord1, double coord2, double coord3, bool cartesian);
   ~Ray();
   Ray Reflection();
   Ray Refraction();

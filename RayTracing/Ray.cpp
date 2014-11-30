@@ -4,7 +4,15 @@ Ray::Ray()
 {
   _x0 = 0;
   _y0 = 0;
-  -z0 = 0;
+  _z0 = 0;
+}
+
+Ray::Ray(double coord1, double coord2, double coord3, bool cartesian)
+{
+	_coord1 = coord1;
+	_coord2 = coord2;
+	_coord3 = coord3;
+	_cartesian = cartesian;
 }
 
 Ray::~Ray()
@@ -28,6 +36,6 @@ double Ray::Illumination()
 
 Vector Ray::Direction()
 {
-  return 0.0;
+  return Vector();
 }
 

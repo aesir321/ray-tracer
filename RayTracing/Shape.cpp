@@ -6,8 +6,18 @@ Shape::Shape()
 {
 }
 
+Shape::Shape(Vector centre)
+{
+	_centre = centre;
+}
+
 Shape::~Shape()
 {
+}
+
+Vector Shape::Centre()
+{
+	return _centre;
 }
 void Shape::PrintShapeStats(Shape &shape)
 {

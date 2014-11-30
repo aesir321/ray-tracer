@@ -7,14 +7,16 @@ class Shape
 {
 public :
 	Shape();
+	Shape(Vector centre);
 	~Shape();
 	virtual double Volume() = 0;
 	virtual double SurfaceArea() = 0;
 	virtual void Name() = 0;
+	Vector Centre();
 	void PrintShapeStats(Shape &shape);
 	Vector SurfaceNormal(Shape &shape);
 	
-private :
+protected :
 	Vector _centre;
 	double _refractiveIndex;
 	double _reflectiveIndex;

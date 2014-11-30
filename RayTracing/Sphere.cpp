@@ -17,7 +17,6 @@ Sphere::Sphere(double radius)
 
 Sphere::~Sphere()
 {
-
 }
 
 double Sphere::SurfaceArea() // Use this one as the ellipsoid is an approximation.
