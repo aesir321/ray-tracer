@@ -51,6 +51,7 @@ double Viewport::Intersection(Ray ray, Sphere sphere)
 	double root1 = 0.0;
 	double root2 = 0.0;
 	double discriminant = 0.0;
+	double minRoot = 0.0;
 
 	discriminant = pow(b, 2) - (4 * a * c);
 
@@ -66,11 +67,12 @@ double Viewport::Intersection(Ray ray, Sphere sphere)
     }
 	else
     {
-      //complex root and don't care, maybe error?
+		//complex root and don't care, maybe error?
+		// Negative root means it is behind the viewport?
+		minRoot = -1.0;
     }
 	
-	// Check logic about min root.  Smallest should be closest to the origin?
-	double minRoot = 0.0;
+	// Check logic about min root.  Smallest should be closest to the origin?	
 	if (root1 < root2)
 	{
 		minRoot = root1;

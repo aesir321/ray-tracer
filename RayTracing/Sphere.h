@@ -1,8 +1,10 @@
 // Author: Will Parker
 #ifndef SPHERE_H
 #define SPHERE_H
+
 #include "Ellipsoid.h"
-#include "Vector"
+#include "Vector.h"
+#include "Ray.h"
 
 class Sphere : public Ellipsoid
 {

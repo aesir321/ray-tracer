@@ -15,6 +15,7 @@ public:
 	double ScalarProduct(Vector vector);
 	Vector Vector::operator+(const Vector &vector);
 	Vector Vector::operator-(const Vector &vector);
+	Vector Vector::operator/(const Vector &vector);
 	void Vector::Add(Vector vector);
 	void Vector::ConvertCartesianVectorToPolar();
 	Vector Vector::ConvertPolarVectorToCartesian();

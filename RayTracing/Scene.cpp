@@ -42,7 +42,11 @@ void Scene::TraceRays()
 			{
 				double intersection = _viewport.Intersection(ray, sceneObjects[i]);
 
-				if (intersection)
+				if (intersection != -1.0)
+				{
+					
+				}
+				
 			}
 		}
 	}

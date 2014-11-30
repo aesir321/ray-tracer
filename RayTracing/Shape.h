@@ -14,7 +14,7 @@ public :
 	virtual void Name() = 0;
 	Vector Centre();
 	void PrintShapeStats(Shape &shape);
-	Vector SurfaceNormal(Shape &shape);
+	virtual Vector SurfaceNormal(Ray ray);
 	
 protected :
 	Vector _centre;

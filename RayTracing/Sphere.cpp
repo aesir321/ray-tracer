@@ -28,3 +28,12 @@ void Sphere::Name()
 {
 	std::cout << "Sphere" << std::endl;
 }
+
+Vector Sphere::SurfaceNormal(Ray intersection)
+{
+	Vector normal;
+	
+	normal = (intersection - _centre) / (intersection - _centre).Magnitude();
+
+	return normal;
+}

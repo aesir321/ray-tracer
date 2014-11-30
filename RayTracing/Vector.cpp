@@ -129,6 +129,19 @@ Vector Vector::operator-(const Vector &rhs)
 	return temp;
 }
 
+Vector Vector::operator/(const Vector &rhs)
+{
+	Vector temp;
+	temp._coord1 = _coord1 / rhs._coord1;
+	temp._coord2 = _coord2 / rhs._coord2;
+	temp._coord3 = _coord3 / rhs._coord3;
+
+	if (!_cartesian)
+		temp.ConvertCartesianVectorToPolar();
+
+	return temp;
+}
+
 void Vector::Add(Vector vector)
 {
 	_coord1 = _coord1 + vector._coord1;
@@ -161,6 +174,7 @@ void Vector::PrintCoordinates()
 	}
 }
 
+// Put into one method
 double Vector::GetFirstComponent()
 {
 	double x = 0.0;
