@@ -44,9 +44,9 @@ double Viewport::Intersection(Ray ray, Sphere sphere)
 {
   //Store these coeffs on the shape, put them here for now to test.
 	double a = ray.ScalarProduct(ray);	
-	double b = 2.0 * ray.ScalarProduct(ray - sphere.Centre());
 	Vector temp = ray - sphere.Centre();
-	double c = pow(temp.Magnitude(), 2);
+	double b = 2.0 * ray.ScalarProduct(temp);	
+	double c = pow(temp.Magnitude(), 2) - pow(sphere.Radius(), 2);
 
 	double root1 = 0.0;
 	double root2 = 0.0;
@@ -59,30 +59,55 @@ double Viewport::Intersection(Ray ray, Sphere sphere)
     {
       root1 = (b * sqrt(discriminant)) / (2 * a);
       root2 = (- b * sqrt(discriminant)) / (2 * a);
+
+	  // Check logic about min root.  Smallest should be closest to the origin?	
+	  if (root1 < 0.0 && root2 < 0.0)
+	  {
+		  minRoot = -1.0;
+	  }
+	  else if (root1 > 0.0 && root2 > 0.0)
+	  {
+		  if (root1 < root2) //can't be negative
+		  {
+			  minRoot = root1;
+		  }
+		  else if (root2 < root1)
+		  {
+			  minRoot = root2;
+		  }
+	  }
+	  else if (root1 > 0.0 && root2 < 0.0)
+	  {
+		  minRoot = root1;
+	  }
+	  else if (root2 > 0.0 && root1 < 0.0)
+	  {
+		  minRoot = root2;
+	  }
     }
 	else if (discriminant == 0)
     {
       root1 = (b * sqrt(discriminant)) / (2 * a);
-      root2 = root1;
+	  if (root1 > 0)
+	  {
+		  minRoot = root1;
+	  }
+	  else
+	  {
+		  minRoot = -1.0;
+	  } 
     }
 	else
     {
-		//complex root and don't care, maybe error?
 		// Negative root means it is behind the viewport?
 		minRoot = -1.0;
-    }
-	
-	// Check logic about min root.  Smallest should be closest to the origin?	
-	if (root1 < root2)
-	{
-		minRoot = root1;
-	}
-	else
-	{
-		minRoot = root2;
-	}
-	
+    }	
 	return minRoot; //Does it make any sense to have this here or better on a shape?  Each line and shape will have its own intersection.
 }
 
-
+Vector Viewport::Centre()
+{
+	//set it a distance 1 away from the observer by default.
+	Vector temp(0, 0, 1, true);
+	return temp;
+}

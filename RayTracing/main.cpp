@@ -4,21 +4,22 @@
 #include "Sphere.h"
 #include "Viewport.h"
 
+
 using namespace std;
 
 int main()
 {
-	//Omit () if constructor takes no args.
 	Vector observer(0, 0, 0, true);
-	LightSource pointLightSource(5.0, 5.0, 5.0, true);
+	LightSource pointLightSource(10.0, 10.0, 10.0, true);
 	Scene scene;
 	scene.AddLightSource(pointLightSource);
 	scene.AddObserver(observer);
 
-	Sphere sphere(1.0);
+	Vector spherePos(0, 0, 20, true);
+	Sphere sphere(spherePos, 20);
 	scene.Populate(sphere);
 
-	Viewport viewport(1, 1, 1);	//Observer is in the middle so magnitude of the x length of the viewport here is 2x2 not 1x1.  
+	Viewport viewport(50, 50, 50);	//Origin is in the middle so magnitude of the x length of the viewport here is 2x2 not 1x1.  
 	scene.AddViewPort(viewport);
 
 	scene.TraceRays();

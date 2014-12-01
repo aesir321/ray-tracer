@@ -9,6 +9,7 @@ public:
 
 	Vector MultiplyScalar(double scalar);
 	Vector DivideScalar(double scalar);
+	Vector SubtractScalar(double scalar);
 	double Magnitude();
 	double AngleXAxis();
 	Vector RotateVector(double theta);
@@ -24,6 +25,7 @@ public:
 	double Vector::GetThirdComponent();
 	bool Vector::IsCartesian();
 	void Vector::PrintCoordinates();
+	Vector UnitVector();
 
 protected:
 

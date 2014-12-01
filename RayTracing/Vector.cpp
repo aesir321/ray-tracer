@@ -63,6 +63,19 @@ Vector Vector::MultiplyScalar(double scalar)
 	return vector;
 }
 
+Vector Vector::SubtractScalar(double scalar)
+{
+	double coord1 = scalar - _coord1;
+	double coord2 = scalar - _coord2;
+	double coord3 = scalar - _coord3;
+	Vector vector(coord1, coord2, coord3, true);
+
+	if (!_cartesian)
+		vector.ConvertCartesianVectorToPolar();
+
+	return vector;
+}
+
 Vector Vector::DivideScalar(double scalar)
 {
 	double coord1 = _coord1 / scalar;
@@ -220,4 +233,10 @@ double Vector::GetThirdComponent()
 bool Vector::IsCartesian()
 {
 	return _cartesian;
+}
+
+Vector Vector::UnitVector()
+{
+	Vector temp(_coord1, _coord2, _coord3, _cartesian);
+	return temp.DivideScalar(temp.Magnitude());
 }

@@ -8,11 +8,12 @@ Sphere::Sphere()
 
 }
 
-Sphere::Sphere(double radius)
+Sphere::Sphere(Vector centre, double radius)
 {
 	_a = radius;
 	_b = radius;
 	_c = radius;
+	_centre = centre;
 }
 
 Sphere::~Sphere()
@@ -29,11 +30,16 @@ void Sphere::Name()
 	std::cout << "Sphere" << std::endl;
 }
 
-Vector Sphere::SurfaceNormal(Ray intersection)
+Vector Shape::SurfaceNormal(Ray intersection)
 {
 	Vector normal;
 	
-	normal = (intersection - _centre) / (intersection - _centre).Magnitude();
+	normal = (intersection - _centre).DivideScalar((intersection - _centre).Magnitude());
 
 	return normal;
+}
+
+double Sphere::Radius()
+{
+	return _a;
 }

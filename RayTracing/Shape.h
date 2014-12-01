@@ -3,6 +3,8 @@
 #define SHAPE_H
 
 #include "Vector.h"
+#include "Ray.h"
+
 class Shape
 {
 public :
@@ -12,9 +14,10 @@ public :
 	virtual double Volume() = 0;
 	virtual double SurfaceArea() = 0;
 	virtual void Name() = 0;
+	virtual Vector SurfaceNormal(Ray ray);
 	Vector Centre();
 	void PrintShapeStats(Shape &shape);
-	virtual Vector SurfaceNormal(Ray ray);
+	
 	
 protected :
 	Vector _centre;

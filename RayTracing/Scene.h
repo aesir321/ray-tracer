@@ -13,8 +13,7 @@ class Scene
 	  Scene();
 	  ~Scene();
 	  std::vector<Sphere> sceneObjects;
-	  std::vector<LightSource> lightSources;
-	  void AddLightSource(Vector lightSource);
+	  void AddLightSource(LightSource lightSource);
 	  void AddObserver(Vector observer);
 	  void Populate(Sphere sphere);
 	  void TraceRays();
@@ -23,6 +22,7 @@ class Scene
 private :
 	Viewport _viewport;
 	Vector _observer;
+	std::vector<LightSource> _lightSources;
 };
 
 #endif

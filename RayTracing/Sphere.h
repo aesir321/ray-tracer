@@ -10,9 +10,11 @@ class Sphere : public Ellipsoid
 {
 public :
 	Sphere();
-	Sphere(double radius);
+	Sphere(Vector centre, double radius);
 	~Sphere();
 	double SurfaceArea();
+	double Radius();
 	void Name();
 };
+
 #endif
