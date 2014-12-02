@@ -11,6 +11,8 @@ class Sphere : public Ellipsoid
 public :
 	Sphere();
 	Sphere(Vector centre, double radius);
+	Vector SurfaceNormal(Ray ray);
+	double Intersection(Ray ray);
 	~Sphere();
 	double SurfaceArea();
 	double Radius();

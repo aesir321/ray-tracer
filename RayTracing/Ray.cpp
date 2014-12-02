@@ -5,12 +5,10 @@ Ray::Ray()
 {
 }
 
-Ray::Ray(double coord1, double coord2, double coord3, bool cartesian)
+Ray::Ray(Vector origin, Vector direction)
 {
-	_coord1 = coord1;
-	_coord2 = coord2;
-	_coord3 = coord3;
-	_cartesian = cartesian;
+  _origin = origin;
+  _direction = direction;
 }
 
 Ray::~Ray()
@@ -18,13 +16,14 @@ Ray::~Ray()
 }
 
 Ray Ray::Reflection(Vector surfaceNormal)
-{
-	Vector vector(_coord1, _coord2, _coord3, _cartesian);
-	vector.SubtractScalar(vector.ScalarProduct(vector.MultiplyScalar(vector.ScalarProduct(surfaceNormal))));
-
-	Ray ray(vector.GetFirstComponent(), vector.GetSecondComponent(), vector.GetThirdComponent(), true);
-
-	return ray;
+{	
+	Ray reflectedRay(_direction.UnitVector(), 
+					RayLine()
+					- surfaceNormal
+					.MultiplyScalar(RayLine()
+					.ScalarProduct(surfaceNormal))
+					.MultiplyScalar(2));		
+	return reflectedRay;
 }
 
 Ray Ray::Refraction()
@@ -32,15 +31,26 @@ Ray Ray::Refraction()
   return Ray();
 }
 
-double Ray::Illumination(Ray reflectedRay, LightSource lightSource, Vector surfaceNormal)//Does it make sense for this to be here?  Illumination could be on the scene?
+double Ray::Illumination(LightSource lightSource, Vector surfaceNormal)
 {
-	double gamma = 1.0; //Where should this be set?
-	Vector reflectionToSourceDirection = lightSource - reflectedRay;
-	return abs(pow(reflectionToSourceDirection.ScalarProduct(surfaceNormal), gamma)); //Abs here as intensity is always +?  Not dependent on direction.
+	double gamma = 1.0;
+	Vector reflectedRay = lightSource.GetPosition();// - RayLine();
+	double illumination = pow(1-surfaceNormal.ScalarProduct(reflectedRay.UnitVector()), 2);
+	
+	return illumination;
 }
 
 Vector Ray::Direction()
 {
-  return Vector();
+  return _direction;
 }
 
+Vector Ray::Origin()
+{
+  return _origin;
+}
+
+Vector Ray::RayLine()
+{
+	return _origin + _direction;
+}

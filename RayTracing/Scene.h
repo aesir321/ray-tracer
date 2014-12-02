@@ -12,10 +12,10 @@ class Scene
  public :
 	  Scene();
 	  ~Scene();
-	  std::vector<Sphere> sceneObjects;
+	  std::vector<Shape*> sceneObjects;
 	  void AddLightSource(LightSource lightSource);
-	  void AddObserver(Vector observer);
-	  void Populate(Sphere sphere);
+	  void AddObserver(Vector observer); //Not sure if this is necessary.
+	  void Populate(Shape *shape);
 	  void TraceRays();
 	  void AddViewPort(Viewport viewport);
 

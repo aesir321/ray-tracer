@@ -14,10 +14,9 @@ public :
 	virtual double Volume() = 0;
 	virtual double SurfaceArea() = 0;
 	virtual void Name() = 0;
-	virtual Vector SurfaceNormal(Ray ray);
+	virtual Vector SurfaceNormal(Ray ray) = 0;
+	virtual double Intersection(Ray ray) = 0;
 	Vector Centre();
-	void PrintShapeStats(Shape &shape);
-	
 	
 protected :
 	Vector _centre;

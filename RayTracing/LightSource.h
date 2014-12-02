@@ -3,12 +3,16 @@
 
 #include "Vector.h"
 
-class LightSource : public Vector
+class LightSource
 {
 public :
 	LightSource();
-	LightSource(double coord1, double coord2, double coord3, bool cartesian);
-	~LightSource();
+	LightSource(Vector position, double colour);
+	~LightSource(); 
+	Vector GetPosition();
+private :
+	Vector _position;
+	double _colour;
 };
 
-#endif LSOURCE_H
+#endif

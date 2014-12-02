@@ -5,7 +5,6 @@
 
 Sphere::Sphere()
 {
-
 }
 
 Sphere::Sphere(Vector centre, double radius)
@@ -30,16 +29,77 @@ void Sphere::Name()
 	std::cout << "Sphere" << std::endl;
 }
 
-Vector Shape::SurfaceNormal(Ray intersection)
+Vector Sphere::SurfaceNormal(Ray incidentRay)
 {
-	Vector normal;
-	
-	normal = (intersection - _centre).DivideScalar((intersection - _centre).Magnitude());
-
+	Vector normal = (incidentRay.RayLine() - Centre()).DivideScalar((incidentRay.RayLine() - Centre()).Magnitude());
 	return normal;
 }
 
 double Sphere::Radius()
 {
 	return _a;
+}
+
+double Sphere::Intersection(Ray ray)
+{
+	Vector rayVec = ray.Direction() - ray.Origin();
+	rayVec = rayVec.UnitVector();
+	double a = rayVec.ScalarProduct(rayVec);
+	Vector temp = rayVec - Centre();
+	double b = 2 * rayVec.ScalarProduct(temp);
+	double c = temp.ScalarProduct(temp) - pow(Radius(), 2);
+
+	double root1 = 0.0;
+	double root2 = 0.0;
+	double discriminant = 0.0;
+	double minRoot = 0.0;
+
+	discriminant = pow(b, 2) - (4 * a * c);
+
+	if (discriminant > 0)
+	{
+		root1 = (b * sqrt(discriminant)) / (2 * a);
+		root2 = (-b * sqrt(discriminant)) / (2 * a);
+
+		if (root1 < 0.0 && root2 < 0.0)
+		{
+			minRoot = -1.0;
+		}
+		else if (root1 > 0.0 && root2 > 0.0)
+		{
+			if (root1 < root2)
+			{
+				minRoot = root1;
+			}
+			else if (root2 < root1)
+			{
+				minRoot = root2;
+			}
+		}
+		else if (root1 > 0.0 && root2 < 0.0)
+		{
+			minRoot = root1;
+		}
+		else if (root2 > 0.0 && root1 < 0.0)
+		{
+			minRoot = root2;
+		}
+	}
+	else if (discriminant == 0)
+	{
+		root1 = (b * sqrt(discriminant)) / (2 * a);
+		if (root1 > 0)
+		{
+			minRoot = root1;
+		}
+		else
+		{
+			minRoot = -1.0;
+		}
+	}
+	else
+	{
+		minRoot = -1.0;
+	}
+	return minRoot;
 }

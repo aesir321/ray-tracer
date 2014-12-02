@@ -11,6 +11,8 @@ public :
 	~Ellipsoid();
 	double Area();
 	double SurfaceArea();
+	Vector SurfaceNormal(Ray ray);
+	double Intersection(Ray ray);
 	double Volume();
 	void Name();
 

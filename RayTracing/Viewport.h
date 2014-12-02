@@ -7,18 +7,19 @@ class Viewport
 {
  public :
   Viewport();
-  Viewport(double width, double height, double depth);
+  Viewport(double width, double height, int numberXPixels, int numberYPixels, Vector centre);
   ~Viewport();
   double GetDimension(int dimension);
+  int GetNumberOfPixels(int dimension);
+  Vector GetPosition();
   Vector Centre();
   double Intersection(Ray ray, Sphere sphere); //Does it make sense to go on the shape class?
 
  private :
   double _width;
   double _height;
-  double _depth;
-  Vector _centre;
-  // double _minDistanceToObserver(double intersection1, double intersection2); Not sure if this is needed atm
-    
+  int _numberXPixels;
+  int _numberYPixels;
+  Vector _centre;     
 };
 #endif

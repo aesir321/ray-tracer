@@ -4,16 +4,22 @@
 #include "Vector.h"
 #include "LightSource.h"
 
-class Ray : public Vector
+class Ray
 {
  public :
   Ray();
-  Ray(double coord1, double coord2, double coord3, bool cartesian);
+  Ray(Vector origin, Vector direction);
   ~Ray();
   Ray Reflection(Vector surfaceNormal);
   Ray Refraction();
-  double Illumination(Ray ray, LightSource lightSource, Vector surfaceNormal); //Check what value would be
+  double Illumination(LightSource lightsource, Vector surfaceNormal);
   Vector Direction();
+  Vector Origin();
+  Vector RayLine();
+
+ private :
+  Vector _direction;
+  Vector _origin;
 
 };
 #endif

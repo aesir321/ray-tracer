@@ -3,22 +3,25 @@
 
 Viewport::Viewport()
 {
+	//Implement defaults here
   _width = 1.0;
   _height = 1.0;
 }
 
-Viewport::Viewport(double width, double height, double depth)
+Viewport::Viewport(double width, double height, int numberxPixels, int numberYPixels, Vector centre)
 {
   _width = width;
   _height = height;
-  _depth = depth;
+  _numberXPixels = numberxPixels;
+  _numberYPixels = numberYPixels;
+  _centre = centre;
 }
 
 Viewport::~Viewport()
 {
 }
 
-double Viewport::GetDimension(int dimension) // 1=width, 2=height, 3=depth
+double Viewport::GetDimension(int dimension) // 1=width, 2=height
 {
 	double dim = 0.0;
 
@@ -30,8 +33,24 @@ double Viewport::GetDimension(int dimension) // 1=width, 2=height, 3=depth
 	case 2:
 		dim = _height;
 		break;
-	case 3: 
-		dim = _depth;
+	default:
+		break;
+	}
+
+	return dim;
+}
+
+int Viewport::GetNumberOfPixels(int dimension) // 1=width, 2=height
+{
+	int dim = 0;
+
+	switch (dimension)
+	{
+	case 1:
+		dim = _numberXPixels;
+		break;
+	case 2:
+		dim = _numberYPixels;
 		break;
 	default:
 		break;
@@ -40,13 +59,13 @@ double Viewport::GetDimension(int dimension) // 1=width, 2=height, 3=depth
 	return dim;
 }
 
-double Viewport::Intersection(Ray ray, Sphere sphere)
+/*double Viewport::Intersection(Ray ray, Shape* shape)
 {
-  //Store these coeffs on the shape, put them here for now to test.
-	double a = ray.ScalarProduct(ray);	
-	Vector temp = ray - sphere.Centre();
-	double b = 2.0 * ray.ScalarProduct(temp);	
-	double c = pow(temp.Magnitude(), 2) - pow(sphere.Radius(), 2);
+  	Vector rayVec = ray.Direction() - ray.Origin();
+	double a = rayVec.ScalarProduct(rayVec);
+	Vector temp = rayVec - sphere->Centre();
+	double b = 2 * rayVec.ScalarProduct(temp);
+	double c = temp.ScalarProduct(temp) - pow(sphere.Radius(), 2);
 
 	double root1 = 0.0;
 	double root2 = 0.0;
@@ -103,11 +122,16 @@ double Viewport::Intersection(Ray ray, Sphere sphere)
 		minRoot = -1.0;
     }	
 	return minRoot; //Does it make any sense to have this here or better on a shape?  Each line and shape will have its own intersection.
-}
+}*/
 
 Vector Viewport::Centre()
 {
 	//set it a distance 1 away from the observer by default.
 	Vector temp(0, 0, 1, true);
 	return temp;
+}
+
+Vector Viewport::GetPosition()
+{
+	return _centre;
 }

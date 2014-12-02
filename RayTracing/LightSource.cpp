@@ -5,15 +5,17 @@ LightSource::LightSource()
 
 }
 
-LightSource::LightSource(double coord1, double coord2, double coord3, bool cartesian)
+LightSource::LightSource(Vector position, double colour)
 {
-	_coord1 = coord1;
-	_coord2 = coord2;
-	_coord3 = coord3;
-	_cartesian = cartesian;
+	_position = position;
+	_colour = colour;
 }
 
 LightSource::~LightSource()
 {
+}
 
+Vector LightSource::GetPosition()
+{
+	return _position;
 }

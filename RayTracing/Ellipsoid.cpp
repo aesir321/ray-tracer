@@ -35,3 +35,13 @@ void Ellipsoid::Name()
 {
 	std::cout << "Ellipsoid" << std::endl;
 }
+
+Vector Ellipsoid::SurfaceNormal(Ray ray)
+{
+  return Vector();
+}
+
+double Ellipsoid::Intersection(Ray ray)
+{
+	return 0.0;
+}
