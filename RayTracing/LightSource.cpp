@@ -5,7 +5,7 @@ LightSource::LightSource()
 
 }
 
-LightSource::LightSource(Vector position, double colour)
+LightSource::LightSource(Vector position, RGBApixel colour)
 {
 	_position = position;
 	_colour = colour;

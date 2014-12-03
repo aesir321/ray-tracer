@@ -2,17 +2,18 @@
 #define LSOURCE_H
 
 #include "Vector.h"
+#include "EasyBMP.h"
 
 class LightSource
 {
 public :
 	LightSource();
-	LightSource(Vector position, double colour);
+	LightSource(Vector position, RGBApixel colour);
 	~LightSource(); 
 	Vector GetPosition();
 private :
 	Vector _position;
-	double _colour;
+	RGBApixel _colour;
 };
 
 #endif

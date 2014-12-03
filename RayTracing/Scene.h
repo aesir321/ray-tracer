@@ -2,22 +2,26 @@
 #define SCENE_H
 
 #include <vector>
-#include "Sphere.h"
 #include "Vector.h"
 #include "LightSource.h"
 #include "Viewport.h"
+#include "Shape.h"
+
+#include "EasyBMP.h"
 
 class Scene
 {
  public :
 	  Scene();
 	  ~Scene();
-	  std::vector<Shape*> sceneObjects;
 	  void AddLightSource(LightSource lightSource);
-	  void AddObserver(Vector observer); //Not sure if this is necessary.
-	  void Populate(Shape *shape);
+	  void AddObserver(Vector observer);
+	  void Populate(Shape* shape);
 	  void TraceRays();
 	  void AddViewPort(Viewport viewport);
+	  std::vector<LightSource> LightSources();
+	  RGBApixel TraceRay(Ray ray);
+	  std::vector<Shape*> sceneObjects;
 
 private :
 	Viewport _viewport;

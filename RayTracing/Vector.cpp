@@ -1,6 +1,6 @@
-#include "Vector.h";
-#include<cmath>;
-#include<iostream>;
+#include "Vector.h"
+#include<cmath>
+#include<iostream>
 /*
 This class defines a vector object.  It will accept either cartesian or spherical polar coords specified by a flag variable.
 The class will always covert spherical polar into cartesian coords for any internal calculations but the flag is preserved and it will

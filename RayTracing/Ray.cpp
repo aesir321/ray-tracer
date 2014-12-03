@@ -3,6 +3,10 @@
 
 Ray::Ray()
 {
+	Vector origin(0, 0, 0, true);
+	Vector direction(0, 0, 0, true);
+	_origin = origin;
+	_direction = direction;
 }
 
 Ray::Ray(Vector origin, Vector direction)
@@ -34,8 +38,13 @@ Ray Ray::Refraction()
 double Ray::Illumination(LightSource lightSource, Vector surfaceNormal)
 {
 	double gamma = 1.0;
-	Vector reflectedRay = lightSource.GetPosition();// - RayLine();
-	double illumination = pow(1-surfaceNormal.ScalarProduct(reflectedRay.UnitVector()), 2);
+	Vector reflectedRay = lightSource.GetPosition() - RayLine();
+	double illumination = surfaceNormal.ScalarProduct(reflectedRay.UnitVector());
+	if (illumination == -1)
+	{
+		illumination = 0.0;
+	}
+	illumination = pow(illumination, gamma);	
 	
 	return illumination;
 }
