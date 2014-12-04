@@ -12,10 +12,10 @@ class Ray
   ~Ray();
   Ray Reflection(Vector surfaceNormal);
   Ray Refraction();
-  double Illumination(LightSource lightsource, Vector surfaceNormal);
+  RGBColour Illumination(LightSource lightsource);
   Vector Direction();
   Vector Origin();
-  Vector RayLine();
+  Ray RayLine(double scalar);
 
  private :
   Vector _direction;

@@ -5,7 +5,7 @@ Shape::Shape()
 {
 }
 
-Shape::Shape(Vector centre, RGBApixel colour)
+Shape::Shape(Vector centre, RGBColour colour)
 {
 	_centre = centre;
 	_colour = colour;
@@ -20,12 +20,12 @@ Vector Shape::Centre()
 	return _centre;
 }
 
-void Shape::SetColour(RGBApixel colour)
+void Shape::SetColour(RGBColour colour)
 {
 	_colour = colour;
 }
 
-RGBApixel Shape::Colour()
+RGBColour Shape::Colour()
 {
 	return _colour;
 }

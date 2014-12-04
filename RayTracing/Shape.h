@@ -3,13 +3,13 @@
 
 #include "Vector.h"
 #include "Ray.h"
-#include "EasyBMP.h"
+#include "RGBColour.h"
 
 class Shape
 {
 public :
 	Shape();
-	Shape(Vector centre, RGBApixel colour);
+	Shape(Vector centre, RGBColour colour);
 	~Shape();
 	virtual double Volume() = 0;
 	virtual double SurfaceArea() = 0;
@@ -17,13 +17,13 @@ public :
 	virtual Vector SurfaceNormal(Ray ray) = 0;
 	virtual double Intersection(Ray ray) = 0;
 	Vector Centre();
-	void SetColour(RGBApixel colour);
-	RGBApixel Colour();
+	void SetColour(RGBColour colour);
+	RGBColour Colour();
 	
 protected :
 	Vector _centre;
 	double _refractiveIndex;
 	double _reflectiveIndex;
-	RGBApixel _colour;
+	RGBColour _colour;
 };
 #endif

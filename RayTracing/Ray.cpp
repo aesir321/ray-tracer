@@ -1,5 +1,7 @@
 #include "Ray.h"
 #include "math.h"
+#include <iostream>
+#include <fstream>
 
 Ray::Ray()
 {
@@ -21,12 +23,10 @@ Ray::~Ray()
 
 Ray Ray::Reflection(Vector surfaceNormal)
 {	
-	Ray reflectedRay(_direction.UnitVector(), 
-					RayLine()
-					- surfaceNormal
-					.MultiplyScalar(RayLine()
-					.ScalarProduct(surfaceNormal))
-					.MultiplyScalar(2));		
+	double temp = 2.0 * _direction.ScalarProduct(surfaceNormal); //overload *
+	Vector temp2 = surfaceNormal.MultiplyScalar(temp);
+
+	Ray reflectedRay(_direction, _direction - temp2);
 	return reflectedRay;
 }
 
@@ -35,18 +35,26 @@ Ray Ray::Refraction()
   return Ray();
 }
 
-double Ray::Illumination(LightSource lightSource, Vector surfaceNormal)
+RGBColour Ray::Illumination(LightSource lightSource)
 {
 	double gamma = 1.0;
-	Vector reflectedRay = lightSource.GetPosition() - RayLine();
-	double illumination = surfaceNormal.ScalarProduct(reflectedRay.UnitVector());
-	if (illumination == -1)
+	Vector rayToSource = (lightSource.GetPosition() - _origin).UnitVector();
+
+	double illumination = rayToSource.UnitVector().ScalarProduct(_direction.UnitVector());
+
+	/*if (illumination > 0)	{
+		std::ofstream file;
+		file.open("log.txt", std::ios_base::app);
+		file << "rayToSource: (" << rayToSource.GetFirstComponent() << ", " << rayToSource.GetSecondComponent() << ", " << rayToSource.GetThirdComponent() << ")" << std::endl;
+		file << "illumination: " << illumination << std::endl;
+	}*/
+
+	if (illumination < 0)
 	{
 		illumination = 0.0;
 	}
 	illumination = pow(illumination, gamma);	
-	
-	return illumination;
+	return lightSource.Colour() * illumination;
 }
 
 Vector Ray::Direction()
@@ -59,7 +67,8 @@ Vector Ray::Origin()
   return _origin;
 }
 
-Vector Ray::RayLine()
+Ray Ray::RayLine(double scalar)
 {
-	return _origin + _direction;
+	Ray ray(_origin, _direction.UnitVector() * scalar);
+	return ray;
 }

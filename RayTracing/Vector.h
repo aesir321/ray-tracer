@@ -15,6 +15,7 @@ public:
 	Vector RotateVector(double theta);
 	double ScalarProduct(Vector vector);
 	Vector operator+(const Vector &vector);
+	Vector operator*(const double &scalar);
 	Vector operator-(const Vector &vector);
 	Vector operator/(const Vector &vector);
 	void Add(Vector vector);

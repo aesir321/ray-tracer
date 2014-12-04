@@ -6,8 +6,11 @@
 #include "LightSource.h"
 #include "Viewport.h"
 #include "Shape.h"
+#include "RGBColour.h"
 
-#include "EasyBMP.h"
+
+
+
 
 class Scene
 {
@@ -20,7 +23,7 @@ class Scene
 	  void TraceRays();
 	  void AddViewPort(Viewport viewport);
 	  std::vector<LightSource> LightSources();
-	  RGBApixel TraceRay(Ray ray);
+	  RGBColour TraceRay(Ray ray);
 	  std::vector<Shape*> sceneObjects;
 
 private :
