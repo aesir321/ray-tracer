@@ -7,7 +7,7 @@ RGBColour::RGBColour()
 	Blue = 0;
 }
 
-RGBColour::RGBColour(double r, double g, double b)
+RGBColour::RGBColour(int r, int g, int b)
 {
 	Red = r;
 	Green = g;

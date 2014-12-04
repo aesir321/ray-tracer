@@ -25,6 +25,7 @@ class Scene
 	  std::vector<LightSource> LightSources();
 	  RGBColour TraceRay(Ray ray);
 	  std::vector<Shape*> sceneObjects;
+	  int GetIndexOfClosestShape(std::vector<double> intersections);
 
 private :
 	Viewport _viewport;

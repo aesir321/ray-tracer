@@ -68,23 +68,61 @@ void Scene::TraceRays()
 	image.WriteToFile("spheres.bmp");	
 }
 
+int Scene::GetIndexOfClosestShape(std::vector<double> intersections)
+{
+	//still needs checking to make sure logic is correct.
+	int minimumIntersection = -1;
+
+	if (intersections.size() == 1 && intersections.at(0) > 0)
+	{
+		minimumIntersection =  0; //Only one object so no need to calculate.
+	}
+	else
+	{
+		double max = 0;
+		for (int i = 0; i < intersections.size(); i++)
+		{
+			if (max < intersections.at(i))
+			{
+				max = intersections.at(i);
+			}
+			if (max > 0)
+			{
+				for (int i = 0; i < intersections.size(); i++)
+				{
+					if (intersections.at(i) > 0 && intersections.at(i) <= max)
+					{
+						max = intersections.at(i);
+						minimumIntersection = i;
+					}
+				}
+			}
+			else
+			{
+				minimumIntersection = -1; //No positive intersections
+			}
+		}
+	}
+	return minimumIntersection;
+}
+
 RGBColour Scene::TraceRay(Ray ray)
 {
 	RGBColour illumination(0, 0, 0);
-
-	illumination.Red = 0;
-	illumination.Green = 0;
-	illumination.Blue = 0;
+	std::vector<double> intersections;
 
 	for (int i = 0; i < sceneObjects.size(); i++)
 	{
-		double intersection = sceneObjects[i]->Intersection(ray); 
+		intersections.push_back(sceneObjects[i]->Intersection(ray));
+
+		/*double intersection = sceneObjects[i]->Intersection(ray); 
 		if (intersection != -1.0)//There is something to see!
 		{
 			Ray incidentRay = ray.RayLine(intersection);
 			Vector surfaceNormal = sceneObjects[i]->SurfaceNormal(incidentRay);			
 			Ray reflectedRay = incidentRay.Reflection(surfaceNormal);
-			illumination = sceneObjects[i]->Colour() * reflectedRay.Illumination(LightSources()[0]);
+			illumination = sceneObjects[i]->Colour() * reflectedRay.Illumination(LightSources()[0]);*/
+
 			/*if (illumination.Blue > 0 || illumination.Red > 0 || illumination.Green > 0)
 			{	
 				std::ofstream file;
@@ -97,7 +135,19 @@ RGBColour Scene::TraceRay(Ray ray)
 				file << "reflected ray: (" << reflectedRay.Direction().GetFirstComponent() << ", " << reflectedRay.Direction().GetSecondComponent() << ", " << reflectedRay.Direction().GetThirdComponent() << ")" << std::endl;
 				file << "---------------------------------------------------------------------" << std::endl;
 			}*/
-		}
+		//}
+
 	}
+	int indexOfClosestShape = GetIndexOfClosestShape(intersections);
+	
+	
+	if (indexOfClosestShape != -1)
+	{
+		Ray incidentRay = ray.RayLine(intersections.at(indexOfClosestShape));
+		Vector surfaceNormal = sceneObjects[indexOfClosestShape]->SurfaceNormal(incidentRay);
+		Ray reflectedRay = incidentRay.Reflection(surfaceNormal);
+		illumination = sceneObjects[indexOfClosestShape]->Colour() * reflectedRay.Illumination(LightSources()[0]);
+	}
+	 
 	return illumination;
 }

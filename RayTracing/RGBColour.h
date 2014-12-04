@@ -7,7 +7,7 @@ class RGBColour : public RGBApixel
 {
 public:
 	RGBColour();
-	RGBColour(double r, double g, double b);
+	RGBColour(int r, int g, int b);
 	~RGBColour();
 	RGBColour RGBColour::operator*(const RGBColour& rhs);
 	RGBColour RGBColour::operator+(const RGBColour& rhs);
