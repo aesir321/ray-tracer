@@ -9,9 +9,10 @@ public:
 	RGBColour();
 	RGBColour(int r, int g, int b);
 	~RGBColour();
-	RGBColour RGBColour::operator*(const RGBColour& rhs);
-	RGBColour RGBColour::operator+(const RGBColour& rhs);
-	RGBColour RGBColour::operator*(const double& rhs);
+	RGBColour operator*(const RGBColour& rhs);
+	RGBColour operator/(const RGBColour& rhs);
+	RGBColour operator+(const RGBColour& rhs);
+	RGBColour operator*(const double& rhs);
 };
 
 #endif

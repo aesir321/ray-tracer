@@ -8,10 +8,6 @@
 #include "Shape.h"
 #include "RGBColour.h"
 
-
-
-
-
 class Scene
 {
  public :

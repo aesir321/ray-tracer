@@ -3,6 +3,7 @@
 
 #include "Vector.h"
 #include "LightSource.h"
+#include <vector>
 
 class Ray
 {
@@ -12,7 +13,7 @@ class Ray
   ~Ray();
   Ray Reflection(Vector surfaceNormal);
   Ray Refraction();
-  RGBColour Illumination(LightSource lightsource);
+  RGBColour Illumination(std::vector<LightSource> lightSources);
   Vector Direction();
   Vector Origin();
   Ray RayLine(double scalar);

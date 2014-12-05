@@ -42,7 +42,7 @@ double Sphere::Radius()
 	return _a;
 }
 
-double Sphere::Intersection(Ray ray)
+double Sphere::Intersection(Ray ray) //Don't need to check for repeated root.  CHECK IF THERE IS A VMIN FIRST.
 {
 	Vector rayVec = (ray.Direction() - ray.Origin()).UnitVector();
 	

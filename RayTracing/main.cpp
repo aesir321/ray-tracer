@@ -31,8 +31,8 @@ int main()
 	sphere->SetColour(red);
 	scene.Populate(sphere);
 
-	Vector spherePos3(0, 0, 200, true);
-	Sphere *sphere3 = new Sphere(spherePos3, 30);
+	Vector spherePos3(100, 0, 200, true);
+	Sphere *sphere3 = new Sphere(spherePos3, 50);
 	RGBColour blue(0, 0, 255);
 	sphere3->SetColour(blue);
 	scene.Populate(sphere3);

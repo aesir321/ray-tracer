@@ -2,6 +2,7 @@
 #include "math.h"
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 Ray::Ray()
 {
@@ -35,12 +36,24 @@ Ray Ray::Refraction()
   return Ray();
 }
 
-RGBColour Ray::Illumination(LightSource lightSource)
+RGBColour Ray::Illumination(std::vector<LightSource> lightSources)
 {
 	double gamma = 1.0;
-	Vector rayToSource = (lightSource.GetPosition() - _origin).UnitVector();
+	double illumination = 0.0;
+	RGBColour rgbColour;
+	for (int i = 0; i < lightSources.size(); i++)
+	{
+		Vector rayToSource = (lightSources.at(i).GetPosition() - _origin).UnitVector();
+		illumination += rayToSource.UnitVector().ScalarProduct(_direction.UnitVector()); //Is it additive?
 
-	double illumination = rayToSource.UnitVector().ScalarProduct(_direction.UnitVector());
+		if (illumination < 0)
+		{
+			illumination = 0.0;
+		}
+		illumination = pow(illumination, gamma);
+		rgbColour = lightSources.at(i).Colour() * illumination;
+	}
+	return rgbColour;
 
 	/*if (illumination > 0)	{
 		std::ofstream file;
@@ -48,13 +61,6 @@ RGBColour Ray::Illumination(LightSource lightSource)
 		file << "rayToSource: (" << rayToSource.GetFirstComponent() << ", " << rayToSource.GetSecondComponent() << ", " << rayToSource.GetThirdComponent() << ")" << std::endl;
 		file << "illumination: " << illumination << std::endl;
 	}*/
-
-	if (illumination < 0)
-	{
-		illumination = 0.0;
-	}
-	illumination = pow(illumination, gamma);	
-	return lightSource.Colour() * illumination;
 }
 
 Vector Ray::Direction()

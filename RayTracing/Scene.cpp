@@ -114,39 +114,15 @@ RGBColour Scene::TraceRay(Ray ray)
 	for (int i = 0; i < sceneObjects.size(); i++)
 	{
 		intersections.push_back(sceneObjects[i]->Intersection(ray));
-
-		/*double intersection = sceneObjects[i]->Intersection(ray); 
-		if (intersection != -1.0)//There is something to see!
-		{
-			Ray incidentRay = ray.RayLine(intersection);
-			Vector surfaceNormal = sceneObjects[i]->SurfaceNormal(incidentRay);			
-			Ray reflectedRay = incidentRay.Reflection(surfaceNormal);
-			illumination = sceneObjects[i]->Colour() * reflectedRay.Illumination(LightSources()[0]);*/
-
-			/*if (illumination.Blue > 0 || illumination.Red > 0 || illumination.Green > 0)
-			{	
-				std::ofstream file;
-				file.open("log.txt", std::ios_base::app);
-
-				file << "Intersection: " << intersection << std::endl;
-				file << "ray: (" << ray.Direction().GetFirstComponent() << ", " << ray.Direction().GetSecondComponent() << ", " << ray.Direction().GetThirdComponent() << ")" << std::endl;
-				file << "incident ray: (" << incidentRay.Direction().GetFirstComponent() << ", " << incidentRay.Direction().GetSecondComponent() << ", " << incidentRay.Direction().GetThirdComponent() << ")" << std::endl;
-				file << "surface normal ray: (" << surfaceNormal.GetFirstComponent() << ", " << surfaceNormal.GetSecondComponent() << ", " << surfaceNormal.GetThirdComponent() << ")" << std::endl;
-				file << "reflected ray: (" << reflectedRay.Direction().GetFirstComponent() << ", " << reflectedRay.Direction().GetSecondComponent() << ", " << reflectedRay.Direction().GetThirdComponent() << ")" << std::endl;
-				file << "---------------------------------------------------------------------" << std::endl;
-			}*/
-		//}
-
 	}
-	int indexOfClosestShape = GetIndexOfClosestShape(intersections);
-	
+	int indexOfClosestShape = GetIndexOfClosestShape(intersections);	
 	
 	if (indexOfClosestShape != -1)
 	{
 		Ray incidentRay = ray.RayLine(intersections.at(indexOfClosestShape));
 		Vector surfaceNormal = sceneObjects[indexOfClosestShape]->SurfaceNormal(incidentRay);
 		Ray reflectedRay = incidentRay.Reflection(surfaceNormal);
-		illumination = sceneObjects[indexOfClosestShape]->Colour() * reflectedRay.Illumination(LightSources()[0]);
+		illumination = sceneObjects[indexOfClosestShape]->Colour() * reflectedRay.Illumination(LightSources());
 	}
 	 
 	return illumination;
