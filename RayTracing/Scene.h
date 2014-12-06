@@ -1,34 +1,37 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include <vector>
 #include "Vector.h"
 #include "LightSource.h"
 #include "Viewport.h"
 #include "Shape.h"
 #include "RGBColour.h"
 
+#include <vector>
+
 class Scene
 {
  public :
 	  Scene();
+	  Scene(Viewport viewport, Vector observer, std::vector<LightSource> lightSources, std::vector<Shape*> sceneObjects, RGBColour backgroundColour, double ambientCoefficient);
 	  ~Scene();
-	  void AddLightSource(LightSource lightSource);
-	  void AddObserver(Vector observer);
+
 	  void Populate(Shape* shape);
+	  void Populate(LightSource lightSource);
+	  void Populate(Vector observer);
 	  void TraceRays();
 	  void AddViewPort(Viewport viewport);
-	  std::vector<LightSource> LightSources();
 	  RGBColour TraceRay(Ray ray);
-	  std::vector<Shape*> sceneObjects;
 	  int GetIndexOfClosestShape(std::vector<double> intersections);
-	  RGBColour CalculateShadows(double x, double y, RGBColour colour);
 
 private :
+
 	Viewport _viewport;
 	Vector _observer;
 	std::vector<LightSource> _lightSources;
+	std::vector<Shape*> _sceneObjects;
 	RGBColour _backgroundColour;
+	double _ambientCoefficient;
 };
 
 #endif

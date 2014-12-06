@@ -11,12 +11,10 @@ class Sphere : public Ellipsoid
 public :
 	Sphere();
 	Sphere(Vector centre, double radius, double diffuseCoefficient);
+	~Sphere();
 	Vector SurfaceNormal(Ray ray);
 	double Intersection(Ray ray);
-	~Sphere();
-	double SurfaceArea();
 	double Radius();
-	void Name();
 };
 
 #endif

@@ -10,29 +10,32 @@
 #include "EasyBMP_VariousBMPutilities.h"
 #include "EasyBMP.cpp"
 
-
 Scene::Scene()
 {
-	_backgroundColour.Red = 0;
-	_backgroundColour.Green = 0;
-	_backgroundColour.Blue = 0;
+	// Not sure whether to set defaults here or not?
+	// In this case probably more useful to be able to have an empty instance.
+}
+
+Scene::Scene(Viewport viewport, Vector observer, std::vector<LightSource> lightSources, std::vector<Shape*> sceneObjects, RGBColour backgroundColour, double ambientCoefficient)
+{
+	_viewport = viewport;
+	_observer = observer;
+	_lightSources = lightSources;
+	_sceneObjects = sceneObjects;
+	_backgroundColour = backgroundColour;
+	double _ambientCoefficient = ambientCoefficient;
 }
 
 Scene::~Scene()
 {
 }
 
-void Scene::AddLightSource(LightSource lightSource)
+void Scene::Populate(LightSource lightSource)
 {
 	_lightSources.push_back(lightSource);
 }
 
-std::vector<LightSource> Scene::LightSources()
-{
-	return _lightSources;
-}
-
-void Scene::AddObserver(Vector observer)
+void Scene::Populate(Vector observer)
 {
 	_observer = observer;
 }
@@ -44,7 +47,7 @@ void Scene::AddViewPort(Viewport viewport)
 
 void Scene::Populate(Shape* shape)
 {
-	sceneObjects.push_back(shape);
+	_sceneObjects.push_back(shape);
 }
 
 void Scene::TraceRays()
@@ -52,8 +55,8 @@ void Scene::TraceRays()
 	BMP image;
 	image.SetSize(_viewport.GetNumberOfPixels(1), _viewport.GetNumberOfPixels(2));
 	image.SetBitDepth(32);
-	RGBColour pixel;
-	double z = _viewport.GetPosition().GetThirdComponent();
+
+	double z = _viewport.GetPosition().Z();
 
 	for (int x = 0; x < _viewport.GetNumberOfPixels(1); x++)
 	{
@@ -61,19 +64,14 @@ void Scene::TraceRays()
 		{
 			double xRay = x / (double)_viewport.GetNumberOfPixels(1) * _viewport.GetDimension(1) - _viewport.GetDimension(1) / 2.0;
 			double yRay = y / (double)_viewport.GetNumberOfPixels(2) * _viewport.GetDimension(2) - _viewport.GetDimension(2) / 2.0;
-			Vector direction(xRay, yRay, z, true);
+			Vector direction(xRay, yRay, z);
 
 			Ray ray(_observer, direction);
 			
-			image.SetPixel(x, y, TraceRay(ray));
-
-			/*pixel.Red = image.GetPixel(x, y).Red;
-			pixel.Green = image.GetPixel(x, y).Green;
-			pixel.Blue = image.GetPixel(x, y).Blue;
-
-			image.SetPixel(x, y, CalculateShadows(x, y, pixel));*/
+			image.SetPixel(x, y, TraceRay(ray).GetPixelColour());
 		}
 	}
+
 	image.WriteToFile("spheres.bmp");	
 }
 
@@ -117,53 +115,76 @@ int Scene::GetIndexOfClosestShape(std::vector<double> intersections)
 
 RGBColour Scene::TraceRay(Ray ray)
 {
-	RGBColour illumination(0, 0, 0);
+	RGBColour finalColour;
 	std::vector<double> intersections;
-	bool isInShadow = false;
-
-	for (int i = 0; i < sceneObjects.size(); i++)
+	
+	for (int i = 0; i < _sceneObjects.size(); i++)
 	{
-		intersections.push_back(sceneObjects[i]->Intersection(ray));
+		intersections.push_back(_sceneObjects[i]->Intersection(ray));
 	}
 	int indexOfClosestShape = GetIndexOfClosestShape(intersections);	
 	
-	if (indexOfClosestShape != -1)
+	if (indexOfClosestShape != -1 && intersections.at(indexOfClosestShape) > 0.00000001) // To help identify if point is on inside or outside of sphere.
 	{
-		isInShadow = false;
 		Ray incidentRay = ray.RayLine(intersections.at(indexOfClosestShape));
-		Vector surfaceNormal = sceneObjects[indexOfClosestShape]->SurfaceNormal(incidentRay);
-		Ray reflectedRay = incidentRay.Reflection(surfaceNormal);
+		RGBColour objectColour = _sceneObjects[indexOfClosestShape]->Colour();
+		finalColour = objectColour * _ambientCoefficient;
 
-		illumination = reflectedRay.Illumination(LightSources(), sceneObjects[indexOfClosestShape]->Colour(), sceneObjects[indexOfClosestShape]->DiffuseCoefficient()); //sceneObjects[indexOfClosestShape]->Colour();
-	}
-	 
-	return illumination;
-}
-
-RGBColour Scene::CalculateShadows(double x, double y, RGBColour colour)
-{
-	double z = _viewport.GetPosition().GetThirdComponent();
-	Vector origin(x, y, z, true);
-	
-	if (colour == _backgroundColour)
-	{
 		for (int i = 0; i < _lightSources.size(); i++)
 		{
-			Vector direction = _lightSources.at(i).GetPosition() - _observer;
-			Ray shadow(_observer, direction);
-			std::vector<double> shadowIntersections;
-
-			for (int j = 0; j < sceneObjects.size(); j++)
+			Ray rayToSource(incidentRay.Direction(), (_lightSources.at(i).GetPosition().UnitVector() - incidentRay.Direction().UnitVector()).UnitVector());			
+			Vector surfaceNormal = _sceneObjects[indexOfClosestShape]->SurfaceNormal(rayToSource);
+			double projectionNormalToSource = surfaceNormal.ScalarProduct(rayToSource.Direction());
+			
+			if (projectionNormalToSource > 0)
 			{
-				shadowIntersections.push_back(sceneObjects.at(j)->Intersection(shadow));
-			}
+				bool isShadow = false;
 
-			for (int k = 0; k < shadowIntersections.size(); k++)
-			{
-				colour = colour / 2.0;
+				std::vector<double> shadowIntersections;
+
+				for (int j = 0; j < _sceneObjects.size() && isShadow == false; j++)
+				{
+					shadowIntersections.push_back(_sceneObjects.at(j)->Intersection(rayToSource));
+				}
+
+				for (int k = 0; k < shadowIntersections.size(); k++)
+				{
+					if (shadowIntersections.at(k) > 0.00000001)
+					{
+						if (shadowIntersections.at(k) <= rayToSource.Direction().Magnitude())
+						{
+							isShadow = true;
+						}						
+					}
+					break;
+				}
+
+				if (isShadow == false)
+				{
+					finalColour = finalColour + (_sceneObjects[indexOfClosestShape]->Colour() * _lightSources.at(i).Colour() * projectionNormalToSource);
+
+					if (_sceneObjects[indexOfClosestShape]->DiffuseCoefficient() > 0) //between 0-1 be shiny. REflection coefficient.
+					{
+						Vector reflectionSurfaceNormal = _sceneObjects[indexOfClosestShape]->SurfaceNormal(incidentRay);
+						Ray reflectedRay = incidentRay.Reflection(reflectionSurfaceNormal);
+						double specularIllumination = reflectedRay.Direction().UnitVector().ScalarProduct(rayToSource.Direction().UnitVector());
+						if (specularIllumination > 0)
+						{
+							specularIllumination = pow(specularIllumination, 10);
+							finalColour = finalColour + _lightSources.at(i).Colour() * specularIllumination * _sceneObjects[indexOfClosestShape]->DiffuseCoefficient();
+						}
+					}
+				}
 			}
-		}
+		}		
+		
+		/*Ray incidentRay2 = ray.RayLine(intersections.at(indexOfClosestShape));
+		
+		Vector surfaceNormal2 = sceneObjects[indexOfClosestShape]->SurfaceNormal(incidentRay2);
+		Ray reflectedRay2 = incidentRay.Reflection(surfaceNormal2);
+
+		illumination = reflectedRay2.Illumination(LightSources(), sceneObjects[indexOfClosestShape]->Colour(), sceneObjects[indexOfClosestShape]->DiffuseCoefficient());*/
 	}
-
-	return colour;
+	 
+	return finalColour;
 }

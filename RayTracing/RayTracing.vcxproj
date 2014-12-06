@@ -69,6 +69,7 @@
     <ClCompile Include="Ellipsoid.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RGBColour.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -81,6 +82,7 @@
     <ClInclude Include="Cuboid.h" />
     <ClInclude Include="Ellipsoid.h" />
     <ClInclude Include="LightSource.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RGBColour.h" />
     <ClInclude Include="Scene.h" />

@@ -62,7 +62,7 @@ int Viewport::GetNumberOfPixels(int dimension) // 1=width, 2=height
 Vector Viewport::Centre()
 {
 	//set it a distance 1 away from the observer by default.
-	Vector temp(0, 0, 1, true);
+	Vector temp(0, 0, 1);
 	return temp;
 }
 

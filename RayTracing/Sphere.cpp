@@ -1,5 +1,5 @@
-// Author: Will Parker
 #include "Sphere.h"
+
 #include <cmath>
 #include <iostream>
 
@@ -20,21 +20,10 @@ Sphere::~Sphere()
 {
 }
 
-double Sphere::SurfaceArea() // Use this one as the ellipsoid is an approximation.
-{
-	return 4.0 * _PI * pow(_a, 2);
-}
-
-void Sphere::Name()
-{
-	std::cout << "Sphere" << std::endl;
-}
-
 Vector Sphere::SurfaceNormal(Ray incidentRay)
 {
 	Vector temp(incidentRay.Direction() - Centre());
-	double mag = temp.Magnitude();
-	Vector normal = (temp).DivideScalar(mag); // overload /
+	Vector normal = temp / temp.Magnitude();
 	return normal;
 }
 
@@ -45,7 +34,7 @@ double Sphere::Radius()
 
 double Sphere::Intersection(Ray ray) //Don't need to check for repeated root.  CHECK IF THERE IS A VMIN FIRST.
 {
-	Vector rayVec = (ray.Direction() - ray.Origin()).UnitVector();
+	Vector rayVec = (ray.Direction() - ray.Origin()).UnitVector(); //MAKE SENSE TO DO THIS HERE OR IN THE CALING METHOD?
 	
 	double a = rayVec.ScalarProduct(rayVec);
 	Vector temp = ray.Origin() - Centre();
@@ -88,21 +77,10 @@ double Sphere::Intersection(Ray ray) //Don't need to check for repeated root.  C
 			minRoot = root2;
 		}
 	}
-	else if (discriminant == 0) //Don't think this is necessary.
-	{
-		root1 = (b * sqrt(discriminant)) / (2 * a);
-		if (root1 > 0)
-		{
-			minRoot = root1;
-		}
-		else
-		{
-			minRoot = -1.0;
-		}
-	}
 	else
 	{
 		minRoot = -1.0;
 	}
+
 	return minRoot;
 }

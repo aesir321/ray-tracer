@@ -1,4 +1,3 @@
-// Author: Will Parker
 #include "Cuboid.h"
 #include <iostream>
 

@@ -9,16 +9,16 @@
 
 RGBColour::RGBColour()
 {
-	Red = 0;
-	Green = 0;
-	Blue = 0;
+	_red = 0;
+	_green = 0;
+	_blue = 0;
 }
 
-RGBColour::RGBColour(double red, double green, int blue)
+RGBColour::RGBColour(double red, double green, double blue)
 {
-	Red = red;
-	Green = green;
-	Blue = blue;
+	_red = red;
+	_green = green;
+	_blue = blue;
 }
 
 RGBColour::~RGBColour()
@@ -26,12 +26,27 @@ RGBColour::~RGBColour()
 
 }
 
+double RGBColour::Red()
+{
+	return _red;
+}
+
+double RGBColour::Green()
+{
+	return _green;
+}
+
+double RGBColour::Blue()
+{
+	return _blue;
+}
+
 RGBColour RGBColour::operator*(const RGBColour &rhs)
 {
 	RGBColour temp;
-	temp.Red = Red * rhs.Red;
-	temp.Green = Green * rhs.Green;
-	temp.Blue = Blue  * rhs.Blue;
+	temp._red = _red * rhs._red;
+	temp._green = _green * rhs._green;
+	temp._blue = _blue  * rhs._blue;
 
 	return temp;
 }
@@ -39,9 +54,9 @@ RGBColour RGBColour::operator*(const RGBColour &rhs)
 RGBColour RGBColour::operator+(const RGBColour &rhs)
 {
 	RGBColour temp;
-	temp.Red = Red + rhs.Red;
-	temp.Green = Green + rhs.Green;
-	temp.Blue = Blue + rhs.Blue;
+	temp._red = _red + rhs._red;
+	temp._green = _green + rhs._green;
+	temp._blue = _blue  + rhs._blue;
 
 	return temp;
 }
@@ -49,9 +64,9 @@ RGBColour RGBColour::operator+(const RGBColour &rhs)
 RGBColour RGBColour::operator*(const double &rhs)
 {
 	RGBColour temp;
-	temp.Red = Red * rhs;
-	temp.Green = Green * rhs;
-	temp.Blue = Blue  * rhs;
+	temp._red = _red * rhs;
+	temp._green = _green * rhs;
+	temp._blue = _blue  * rhs;
 
 	return temp;
 }
@@ -59,9 +74,9 @@ RGBColour RGBColour::operator*(const double &rhs)
 RGBColour RGBColour::operator/(const RGBColour &rhs)
 {
 	RGBColour temp;
-	temp.Red = Red / rhs.Red;
-	temp.Green = Green / rhs.Green;
-	temp.Blue = Blue  / rhs.Blue;
+	temp._red = _red / rhs._red;
+	temp._green = _green / rhs._green;
+	temp._blue = _blue  / rhs._blue;
 
 	return temp;
 }
@@ -69,21 +84,29 @@ RGBColour RGBColour::operator/(const RGBColour &rhs)
 RGBColour RGBColour::operator/(const double &rhs)
 {
 	RGBColour temp;
-	temp.Red = Red / rhs;
-	temp.Green = Green / rhs;
-	temp.Blue = Blue / rhs;
+	temp._red = _red * rhs;
+	temp._green = _green * rhs;
+	temp._blue = _blue  * rhs;
 
 	return temp;
 }
 
-
 bool RGBColour::operator==(const RGBColour &rhs)
 {
 	bool equal = false;
-	if (Red == rhs.Red && Blue == rhs.Blue && Green == rhs.Green)
+	if (_red == rhs._red && _blue == rhs._blue && _green == rhs._green)
 	{
 		equal = true;
 	}
 
 	return equal;
+}
+
+RGBApixel RGBColour::GetPixelColour()
+{
+	RGBApixel pixel;
+	pixel.Red = (int)floor(255 * _red);
+	pixel.Green = (int)floor(255 * _green);
+	pixel.Blue = (int)floor(255 * _blue);
+	return pixel;
 }

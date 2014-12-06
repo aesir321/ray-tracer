@@ -4,36 +4,27 @@ class Vector
 {
 public:
 	Vector();
-	Vector(double coord1, double coord2, double coord3, bool cartesian);
+	Vector(double coord1, double coord2, double coord3);
 	~Vector();
 
-	Vector MultiplyScalar(double scalar);
-	Vector DivideScalar(double scalar);
-	Vector SubtractScalar(double scalar);
 	double Magnitude();
-	double AngleXAxis();
-	Vector RotateVector(double theta);
 	double ScalarProduct(Vector vector);
-	Vector operator+(const Vector &vector);
-	Vector operator*(const double &scalar);
-	Vector operator-(const Vector &vector);
-	Vector operator/(const Vector &vector);
-	void Add(Vector vector);
-	void ConvertCartesianVectorToPolar();
-	Vector ConvertPolarVectorToCartesian();
-	double GetFirstComponent();
-	double GetSecondComponent();
-	double GetThirdComponent();
-	bool IsCartesian();
-	void PrintCoordinates();
+	double X();
+	double Y();
+	double Z();
 	Vector UnitVector();
-	Vector Invert();
+
+	Vector operator+(const Vector &rhs);
+	Vector operator*(const double &rhs);
+	Vector operator-(const Vector &rhs);
+	Vector operator-(const double &rhs);
+	Vector operator/(const Vector &rhs);
+	Vector operator/(const double &rhs);	
 
 protected:
 
 	double _coord1;
 	double _coord2;
 	double _coord3;
-	bool _cartesian;
 };
 #endif
