@@ -22,11 +22,13 @@ class Scene
 	  RGBColour TraceRay(Ray ray);
 	  std::vector<Shape*> sceneObjects;
 	  int GetIndexOfClosestShape(std::vector<double> intersections);
+	  RGBColour CalculateShadows(double x, double y, RGBColour colour);
 
 private :
 	Viewport _viewport;
 	Vector _observer;
 	std::vector<LightSource> _lightSources;
+	RGBColour _backgroundColour;
 };
 
 #endif

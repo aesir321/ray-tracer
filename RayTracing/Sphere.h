@@ -10,7 +10,7 @@ class Sphere : public Ellipsoid
 {
 public :
 	Sphere();
-	Sphere(Vector centre, double radius);
+	Sphere(Vector centre, double radius, double diffuseCoefficient);
 	Vector SurfaceNormal(Ray ray);
 	double Intersection(Ray ray);
 	~Sphere();

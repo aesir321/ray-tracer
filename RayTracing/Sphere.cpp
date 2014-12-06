@@ -7,12 +7,13 @@ Sphere::Sphere()
 {
 }
 
-Sphere::Sphere(Vector centre, double radius)
+Sphere::Sphere(Vector centre, double radius, double diffuseCoefficient)
 {
 	_a = radius;
 	_b = radius;
 	_c = radius;
 	_centre = centre;
+	_diffuseCoefficient = diffuseCoefficient;
 }
 
 Sphere::~Sphere()

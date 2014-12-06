@@ -4,6 +4,7 @@
 #include "Vector.h"
 #include "LightSource.h"
 #include <vector>
+#include "EasyBMP.h"
 
 class Ray
 {
@@ -13,7 +14,7 @@ class Ray
   ~Ray();
   Ray Reflection(Vector surfaceNormal);
   Ray Refraction();
-  RGBColour Illumination(std::vector<LightSource> lightSources);
+  RGBColour Illumination(std::vector<LightSource> lightSources, RGBColour colour, double diffuseCoefficient);
   Vector Direction();
   Vector Origin();
   Ray RayLine(double scalar);

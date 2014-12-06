@@ -9,7 +9,7 @@ class Shape
 {
 public :
 	Shape();
-	Shape(Vector centre, RGBColour colour);
+	Shape(Vector centre, RGBColour colour, double diffuseCoefficient);
 	~Shape();
 	virtual double Volume() = 0;
 	virtual double SurfaceArea() = 0;
@@ -19,11 +19,13 @@ public :
 	Vector Centre();
 	void SetColour(RGBColour colour);
 	RGBColour Colour();
+	double DiffuseCoefficient();
 	
 protected :
 	Vector _centre;
 	double _refractiveIndex;
 	double _reflectiveIndex;
 	RGBColour _colour;
+	double _diffuseCoefficient;
 };
 #endif

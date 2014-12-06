@@ -14,11 +14,11 @@ RGBColour::RGBColour()
 	Blue = 0;
 }
 
-RGBColour::RGBColour(int r, int g, int b)
+RGBColour::RGBColour(double red, double green, int blue)
 {
-	Red = r;
-	Green = g;
-	Blue = b;
+	Red = red;
+	Green = green;
+	Blue = blue;
 }
 
 RGBColour::~RGBColour()
@@ -64,4 +64,26 @@ RGBColour RGBColour::operator/(const RGBColour &rhs)
 	temp.Blue = Blue  / rhs.Blue;
 
 	return temp;
+}
+
+RGBColour RGBColour::operator/(const double &rhs)
+{
+	RGBColour temp;
+	temp.Red = Red / rhs;
+	temp.Green = Green / rhs;
+	temp.Blue = Blue / rhs;
+
+	return temp;
+}
+
+
+bool RGBColour::operator==(const RGBColour &rhs)
+{
+	bool equal = false;
+	if (Red == rhs.Red && Blue == rhs.Blue && Green == rhs.Green)
+	{
+		equal = true;
+	}
+
+	return equal;
 }

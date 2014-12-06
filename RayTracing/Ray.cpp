@@ -36,31 +36,28 @@ Ray Ray::Refraction()
   return Ray();
 }
 
-RGBColour Ray::Illumination(std::vector<LightSource> lightSources)
+RGBColour Ray::Illumination(std::vector<LightSource> lightSources, RGBColour shapeColour, double diffuseCoefficient)
 {
-	double gamma = 1.0;
+	double gamma = 1;
 	double illumination = 0.0;
-	RGBColour rgbColour;
+	RGBColour colour(0,0,0);
+
 	for (int i = 0; i < lightSources.size(); i++)
 	{
 		Vector rayToSource = (lightSources.at(i).GetPosition() - _origin).UnitVector();
-		illumination += rayToSource.UnitVector().ScalarProduct(_direction.UnitVector()); //Is it additive?
+		illumination = rayToSource.ScalarProduct(_direction.UnitVector());
 
-		if (illumination < 0)
+		if (illumination <= 0)
 		{
-			illumination = 0.0;
+			continue;
 		}
-		illumination = pow(illumination, gamma);
-		rgbColour = lightSources.at(i).Colour() * illumination;
-	}
-	return rgbColour;
 
-	/*if (illumination > 0)	{
-		std::ofstream file;
-		file.open("log.txt", std::ios_base::app);
-		file << "rayToSource: (" << rayToSource.GetFirstComponent() << ", " << rayToSource.GetSecondComponent() << ", " << rayToSource.GetThirdComponent() << ")" << std::endl;
-		file << "illumination: " << illumination << std::endl;
-	}*/
+		illumination = pow(illumination, gamma);
+
+		colour = (shapeColour * illumination * diffuseCoefficient) + (shapeColour * lightSources.at(i).AmbientCoefficient()) + (shapeColour * lightSources.at(i).Colour() * illumination);
+	}
+
+	return colour;
 }
 
 Vector Ray::Direction()

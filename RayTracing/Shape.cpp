@@ -5,10 +5,11 @@ Shape::Shape()
 {
 }
 
-Shape::Shape(Vector centre, RGBColour colour)
+Shape::Shape(Vector centre, RGBColour colour, double diffuseCoefficient)
 {
 	_centre = centre;
 	_colour = colour;
+	_diffuseCoefficient = diffuseCoefficient;
 }
 
 Shape::~Shape()
@@ -28,4 +29,9 @@ void Shape::SetColour(RGBColour colour)
 RGBColour Shape::Colour()
 {
 	return _colour;
+}
+
+double Shape::DiffuseCoefficient()
+{
+	return _diffuseCoefficient;
 }

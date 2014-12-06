@@ -8,13 +8,16 @@ class LightSource
 {
 public :
 	LightSource();
-	LightSource(Vector position, RGBColour colour);
+	LightSource(Vector position, RGBColour colour, double ambientCoefficient);
 	~LightSource(); 
 	Vector GetPosition();
-	RGBColour LightSource::Colour();
+	RGBColour Colour();
+	double AmbientCoefficient();
+
 private :
 	Vector _position;
 	RGBColour _colour;
+	double _ambientCoefficient;
 };
 
 #endif

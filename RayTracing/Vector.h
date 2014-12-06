@@ -27,6 +27,7 @@ public:
 	bool IsCartesian();
 	void PrintCoordinates();
 	Vector UnitVector();
+	Vector Invert();
 
 protected:
 

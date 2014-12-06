@@ -250,3 +250,9 @@ Vector Vector::UnitVector()
 	Vector temp(_coord1, _coord2, _coord3, _cartesian);
 	return temp.DivideScalar(temp.Magnitude());
 }
+
+Vector Vector::Invert()
+{
+	Vector temp(_coord1 * 1.0, _coord2 * 1.0, _coord3 * 1.0, _cartesian);
+	return temp;
+}

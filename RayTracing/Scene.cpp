@@ -13,6 +13,9 @@
 
 Scene::Scene()
 {
+	_backgroundColour.Red = 0;
+	_backgroundColour.Green = 0;
+	_backgroundColour.Blue = 0;
 }
 
 Scene::~Scene()
@@ -49,7 +52,7 @@ void Scene::TraceRays()
 	BMP image;
 	image.SetSize(_viewport.GetNumberOfPixels(1), _viewport.GetNumberOfPixels(2));
 	image.SetBitDepth(32);
-	
+	RGBColour pixel;
 	double z = _viewport.GetPosition().GetThirdComponent();
 
 	for (int x = 0; x < _viewport.GetNumberOfPixels(1); x++)
@@ -61,8 +64,14 @@ void Scene::TraceRays()
 			Vector direction(xRay, yRay, z, true);
 
 			Ray ray(_observer, direction);
-
+			
 			image.SetPixel(x, y, TraceRay(ray));
+
+			/*pixel.Red = image.GetPixel(x, y).Red;
+			pixel.Green = image.GetPixel(x, y).Green;
+			pixel.Blue = image.GetPixel(x, y).Blue;
+
+			image.SetPixel(x, y, CalculateShadows(x, y, pixel));*/
 		}
 	}
 	image.WriteToFile("spheres.bmp");	
@@ -110,6 +119,7 @@ RGBColour Scene::TraceRay(Ray ray)
 {
 	RGBColour illumination(0, 0, 0);
 	std::vector<double> intersections;
+	bool isInShadow = false;
 
 	for (int i = 0; i < sceneObjects.size(); i++)
 	{
@@ -119,11 +129,41 @@ RGBColour Scene::TraceRay(Ray ray)
 	
 	if (indexOfClosestShape != -1)
 	{
+		isInShadow = false;
 		Ray incidentRay = ray.RayLine(intersections.at(indexOfClosestShape));
 		Vector surfaceNormal = sceneObjects[indexOfClosestShape]->SurfaceNormal(incidentRay);
 		Ray reflectedRay = incidentRay.Reflection(surfaceNormal);
-		illumination = sceneObjects[indexOfClosestShape]->Colour() * reflectedRay.Illumination(LightSources());
+
+		illumination = reflectedRay.Illumination(LightSources(), sceneObjects[indexOfClosestShape]->Colour(), sceneObjects[indexOfClosestShape]->DiffuseCoefficient()); //sceneObjects[indexOfClosestShape]->Colour();
 	}
 	 
 	return illumination;
+}
+
+RGBColour Scene::CalculateShadows(double x, double y, RGBColour colour)
+{
+	double z = _viewport.GetPosition().GetThirdComponent();
+	Vector origin(x, y, z, true);
+	
+	if (colour == _backgroundColour)
+	{
+		for (int i = 0; i < _lightSources.size(); i++)
+		{
+			Vector direction = _lightSources.at(i).GetPosition() - _observer;
+			Ray shadow(_observer, direction);
+			std::vector<double> shadowIntersections;
+
+			for (int j = 0; j < sceneObjects.size(); j++)
+			{
+				shadowIntersections.push_back(sceneObjects.at(j)->Intersection(shadow));
+			}
+
+			for (int k = 0; k < shadowIntersections.size(); k++)
+			{
+				colour = colour / 2.0;
+			}
+		}
+	}
+
+	return colour;
 }
