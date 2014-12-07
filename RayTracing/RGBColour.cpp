@@ -61,6 +61,17 @@ RGBColour RGBColour::operator+(const RGBColour &rhs)
 	return temp;
 }
 
+RGBColour RGBColour::operator+=(const RGBColour &rhs)
+{
+	RGBColour temp;
+
+	temp._red = _red + rhs._red;
+	temp._green = _green + rhs._green;
+	temp._blue = _blue + rhs._blue;
+
+	return temp;
+}
+
 RGBColour RGBColour::operator*(const double &rhs)
 {
 	RGBColour temp;

@@ -117,74 +117,84 @@ RGBColour Scene::TraceRay(Ray ray)
 {
 	RGBColour finalColour;
 	std::vector<double> intersections;
-	
+
 	for (int i = 0; i < _sceneObjects.size(); i++)
 	{
 		intersections.push_back(_sceneObjects[i]->Intersection(ray));
 	}
-	int indexOfClosestShape = GetIndexOfClosestShape(intersections);	
+	int indexOfClosestShape = GetIndexOfClosestShape(intersections);
 	
-	if (indexOfClosestShape != -1 && intersections.at(indexOfClosestShape) > 0.00000001) // To help identify if point is on inside or outside of sphere.
+	// To help identify if point is on inside or outside of sphere.
+	if (indexOfClosestShape != -1 && intersections.at(indexOfClosestShape) > 0.00000001)
 	{
 		Ray incidentRay = ray.RayLine(intersections.at(indexOfClosestShape));
-		RGBColour objectColour = _sceneObjects[indexOfClosestShape]->Colour();
+		Shape *closestShape = _sceneObjects[indexOfClosestShape];
+		RGBColour objectColour = closestShape->Colour();
 		finalColour = objectColour * _ambientCoefficient;
 
-		for (int i = 0; i < _lightSources.size(); i++)
-		{
-			Ray rayToSource(incidentRay.Direction(), (_lightSources.at(i).GetPosition().UnitVector() - incidentRay.Direction().UnitVector()).UnitVector());			
-			Vector surfaceNormal = _sceneObjects[indexOfClosestShape]->SurfaceNormal(rayToSource);
-			double projectionNormalToSource = surfaceNormal.ScalarProduct(rayToSource.Direction());
-			
-			if (projectionNormalToSource > 0)
-			{
-				bool isShadow = false;
-
-				std::vector<double> shadowIntersections;
-
-				for (int j = 0; j < _sceneObjects.size() && isShadow == false; j++)
-				{
-					shadowIntersections.push_back(_sceneObjects.at(j)->Intersection(rayToSource));
-				}
-
-				for (int k = 0; k < shadowIntersections.size(); k++)
-				{
-					if (shadowIntersections.at(k) > 0.00000001)
-					{
-						if (shadowIntersections.at(k) <= rayToSource.Direction().Magnitude())
-						{
-							isShadow = true;
-						}						
-					}
-					break;
-				}
-
-				if (isShadow == false)
-				{
-					finalColour = finalColour + (_sceneObjects[indexOfClosestShape]->Colour() * _lightSources.at(i).Colour() * projectionNormalToSource);
-
-					if (_sceneObjects[indexOfClosestShape]->DiffuseCoefficient() > 0) //between 0-1 be shiny. REflection coefficient.
-					{
-						Vector reflectionSurfaceNormal = _sceneObjects[indexOfClosestShape]->SurfaceNormal(incidentRay);
-						Ray reflectedRay = incidentRay.Reflection(reflectionSurfaceNormal);
-						double specularIllumination = reflectedRay.Direction().UnitVector().ScalarProduct(rayToSource.Direction().UnitVector());
-						if (specularIllumination > 0)
-						{
-							specularIllumination = pow(specularIllumination, 10);
-							finalColour = finalColour + _lightSources.at(i).Colour() * specularIllumination * _sceneObjects[indexOfClosestShape]->DiffuseCoefficient();
-						}
-					}
-				}
-			}
-		}		
-		
+		finalColour = illumination(incidentRay, closestShape, finalColour, objectColour);
+	}
 		/*Ray incidentRay2 = ray.RayLine(intersections.at(indexOfClosestShape));
-		
+
 		Vector surfaceNormal2 = sceneObjects[indexOfClosestShape]->SurfaceNormal(incidentRay2);
 		Ray reflectedRay2 = incidentRay.Reflection(surfaceNormal2);
 
 		illumination = reflectedRay2.Illumination(LightSources(), sceneObjects[indexOfClosestShape]->Colour(), sceneObjects[indexOfClosestShape]->DiffuseCoefficient());*/
+	return finalColour;
+}
+
+RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour finalColour, RGBColour objectColour)
+{
+	for (int i = 0; i < _lightSources.size(); i++)
+	{
+		Ray rayToSource(incidentRay.Direction(), (_lightSources.at(i).GetPosition().UnitVector() - incidentRay.Direction().UnitVector()).UnitVector());
+		Vector surfaceNormal = closestShape->SurfaceNormal(rayToSource);
+		double projectionNormalToSource = surfaceNormal.ScalarProduct(rayToSource.Direction());
+
+		if (projectionNormalToSource > 0)
+		{
+			bool isShadow = false;
+
+			std::vector<double> shadowIntersections;
+
+			for (int j = 0; j < _sceneObjects.size() && isShadow == false; j++)
+			{
+				shadowIntersections.push_back(_sceneObjects.at(j)->Intersection(rayToSource));
+			}
+
+			for (int k = 0; k < shadowIntersections.size(); k++)
+			{
+				if (shadowIntersections.at(k) > 0.00000001 && shadowIntersections.at(k) <= rayToSource.Direction().Magnitude())
+				{
+					isShadow = true;
+				}
+				break;
+			}
+
+			if (isShadow == false)
+			{
+				finalColour = specularReflection(finalColour, objectColour, _lightSources.at(i), projectionNormalToSource, closestShape, incidentRay, rayToSource);
+			}
+		}
 	}
-	 
+	return finalColour;
+}
+
+RGBColour Scene::specularReflection(RGBColour finalColour, RGBColour objectColour, LightSource lightSource, double projectionNormalToSource, Shape *closestShape, Ray incidentRay, Ray rayToSource)
+{
+	finalColour = finalColour + (objectColour * lightSource.Colour() * projectionNormalToSource);
+
+	if (closestShape->ReflectionCoefficient() > 0)
+	{
+		Vector reflectionSurfaceNormal = closestShape->SurfaceNormal(incidentRay);
+		Ray reflectedRay = incidentRay.Reflection(reflectionSurfaceNormal);
+		double specularIllumination = reflectedRay.Direction().UnitVector().ScalarProduct(rayToSource.Direction().UnitVector());
+
+		if (specularIllumination > 0)
+		{
+			specularIllumination = pow(specularIllumination, 10); //10 = gamma here.
+			finalColour = finalColour + lightSource.Colour() * specularIllumination * closestShape->ReflectionCoefficient();
+		}
+	}
 	return finalColour;
 }

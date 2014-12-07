@@ -32,6 +32,9 @@ private :
 	std::vector<Shape*> _sceneObjects;
 	RGBColour _backgroundColour;
 	double _ambientCoefficient;
+
+	RGBColour illumination(Ray incidentRay, Shape *closestShape, RGBColour finalColour, RGBColour objectColour);
+	RGBColour specularReflection(RGBColour finalColour, RGBColour objectColour, LightSource lightSource, double projectionNormalToSource, Shape *closestShape, Ray incidentRay, Ray rayToSource);
 };
 
 #endif

@@ -7,6 +7,7 @@
 class RGBColour
 {
 public:
+
 	RGBColour();
 	RGBColour(double red, double green, double blue);
 	~RGBColour();
@@ -15,6 +16,7 @@ public:
 	RGBColour operator/(const RGBColour& rhs);
 	RGBColour operator/(const double& rhs);
 	RGBColour operator+(const RGBColour& rhs);	
+	RGBColour operator+=(const RGBColour& rhs);
 	bool operator==(const RGBColour &rhs);
 
 	RGBApixel GetPixelColour();
@@ -23,6 +25,7 @@ public:
 	double Blue();
 
 private :
+
 	double _red;
 	double _green;
 	double _blue;

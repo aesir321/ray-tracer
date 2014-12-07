@@ -1,4 +1,3 @@
-// Author: Will Parker
 #ifndef SPHERE_H
 #define SPHERE_H
 
@@ -10,7 +9,7 @@ class Sphere : public Ellipsoid
 {
 public :
 	Sphere();
-	Sphere(Vector centre, double radius, double diffuseCoefficient);
+	Sphere(Vector centre, double radius, double diffuseCoefficient, double reflectionCoefficient);
 	~Sphere();
 	Vector SurfaceNormal(Ray ray);
 	double Intersection(Ray ray);

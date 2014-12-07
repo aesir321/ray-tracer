@@ -18,18 +18,3 @@ Cuboid::Cuboid(double side1, double side2, double side3)
 Cuboid::~Cuboid()
 {
 }
-
-double Cuboid::SurfaceArea()
-{
-	return _side1 * _side2 * 6;
-}
-
-double Cuboid::Volume()
-{
-	return _side1 * _side2 * _side3;
-}
-
-void Cuboid::Name()
-{
-	std::cout << "Cuboid" << std::endl;
-}

@@ -8,6 +8,7 @@
 class Shape
 {
 public :
+
 	Shape();
 	Shape(Vector centre, RGBColour colour, double diffuseCoefficient, double reflectionCoefficient);
 	~Shape();
@@ -20,9 +21,8 @@ public :
 	double ReflectionCoefficient();
 	
 protected :
+
 	Vector _centre;
-	double _refractiveIndex;
-	double _reflectiveIndex;
 	RGBColour _colour;
 	double _diffuseCoefficient;
 	double _reflectionCoefficient;

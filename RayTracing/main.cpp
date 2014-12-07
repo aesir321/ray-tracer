@@ -15,7 +15,8 @@ int main()
 {
 	Vector observer(0, 0, 0);
 
-	Vector lightSourcePosition(-1000, -1000, 50); //y here is inverted: different coord system? right handed?
+	//y here is inverted: different coord system? right handed?
+	Vector lightSourcePosition(1000, -1000, 20);
 	RGBColour white(1, 1, 1);
 	LightSource pointLightSource(lightSourcePosition, white, 0.1);
 
@@ -25,11 +26,11 @@ int main()
 
 	Vector planeNormal(0, -1, 0);
 	RGBColour planeColour(1, 1, 1);
-	Plane *plane = new Plane(planeNormal, planeColour, 102);
+	Plane *plane = new Plane(planeNormal, planeColour, 600);
 	scene.Populate(plane);
 
 	Vector spherePos(0, -10, 100);
-	Sphere *sphere = new Sphere(spherePos, 50, 0.9);
+	Sphere *sphere = new Sphere(spherePos, 50, 0.9, 1);
 	RGBColour colour(1, 0, 0);
 	sphere->SetColour(colour);
 	scene.Populate(sphere);
