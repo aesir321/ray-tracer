@@ -24,7 +24,7 @@ Ray::~Ray()
 
 Ray Ray::Reflection(Vector surfaceNormal)
 {	
-	double temp = 2.0 * _direction.ScalarProduct(surfaceNormal); //overload *
+	double temp = 2.0 * _direction.ScalarProduct(surfaceNormal);
 	Vector temp2 = surfaceNormal * temp;
 
 	Ray reflectedRay(_direction, _direction - temp2);
@@ -36,7 +36,7 @@ Ray Ray::Refraction()
   return Ray();
 }
 
-RGBColour Ray::Illumination(std::vector<LightSource> lightSources, RGBColour shapeColour, double diffuseCoefficient)
+/*RGBColour Ray::Illumination(std::vector<LightSource> lightSources, RGBColour shapeColour, double diffuseCoefficient)
 {
 	double gamma = 1;
 	double illumination = 0.0;
@@ -58,7 +58,7 @@ RGBColour Ray::Illumination(std::vector<LightSource> lightSources, RGBColour sha
 	}
 
 	return colour;
-}
+}*/
 
 Vector Ray::Direction()
 {

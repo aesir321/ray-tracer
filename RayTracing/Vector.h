@@ -15,6 +15,7 @@ public:
 	Vector UnitVector();
 
 	Vector operator+(const Vector &rhs);
+	Vector operator+(const double &rhs);
 	Vector operator*(const double &rhs);
 	Vector operator-(const Vector &rhs);
 	Vector operator-(const double &rhs);

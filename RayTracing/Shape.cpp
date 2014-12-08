@@ -5,12 +5,13 @@ Shape::Shape()
 {
 }
 
-Shape::Shape(Vector centre, RGBColour colour, double diffuseCoefficient, double reflectionCoefficient)
+Shape::Shape(Vector centre, RGBColour colour, double diffuseCoefficient, double reflectionCoefficient, double shininess)
 {
 	_centre = centre;
 	_colour = colour;
 	_diffuseCoefficient = diffuseCoefficient;
 	_reflectionCoefficient = reflectionCoefficient;
+	_shininess = shininess;
 }
 
 Shape::~Shape()
@@ -40,4 +41,9 @@ double Shape::DiffuseCoefficient()
 double Shape::ReflectionCoefficient()
 {
 	return _reflectionCoefficient;
+}
+
+double Shape::Shininess()
+{
+	return _shininess;
 }

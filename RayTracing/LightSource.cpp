@@ -5,11 +5,12 @@ LightSource::LightSource()
 
 }
 
-LightSource::LightSource(Vector position, RGBColour colour, double ambientCoefficient)
+LightSource::LightSource(Vector position, RGBColour colour, double specularIntensity, double diffuseIntensity)
 {
 	_position = position;
 	_colour = colour;
-	_ambientCoefficient = ambientCoefficient;
+	_specularIntensity = specularIntensity;
+	_diffuseIntensity = diffuseIntensity;
 }
 
 LightSource::~LightSource()
@@ -26,7 +27,12 @@ RGBColour LightSource::Colour()
 	return _colour;
 }
 
-double LightSource::AmbientCoefficient()
+double LightSource::SpecularIntensity()
 {
-	return _ambientCoefficient;
+	return _specularIntensity;
+}
+
+double LightSource::DiffuseIntensity()
+{
+	return _diffuseIntensity;
 }

@@ -10,7 +10,7 @@ class Shape
 public :
 
 	Shape();
-	Shape(Vector centre, RGBColour colour, double diffuseCoefficient, double reflectionCoefficient);
+	Shape(Vector centre, RGBColour colour, double diffuseCoefficient, double reflectionCoefficient, double shininess);
 	~Shape();
 	virtual Vector SurfaceNormal(Ray ray) = 0;
 	virtual double Intersection(Ray ray) = 0;
@@ -19,6 +19,7 @@ public :
 	RGBColour Colour();
 	double DiffuseCoefficient();
 	double ReflectionCoefficient();
+	double Shininess();
 	
 protected :
 
@@ -26,5 +27,6 @@ protected :
 	RGBColour _colour;
 	double _diffuseCoefficient;
 	double _reflectionCoefficient;
+	double _shininess;
 };
 #endif

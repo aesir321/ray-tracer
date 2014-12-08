@@ -95,9 +95,9 @@ RGBColour RGBColour::operator/(const RGBColour &rhs)
 RGBColour RGBColour::operator/(const double &rhs)
 {
 	RGBColour temp;
-	temp._red = _red * rhs;
-	temp._green = _green * rhs;
-	temp._blue = _blue  * rhs;
+	temp._red = _red / rhs;
+	temp._green = _green / rhs;
+	temp._blue = _blue  / rhs;
 
 	return temp;
 }
@@ -116,8 +116,10 @@ bool RGBColour::operator==(const RGBColour &rhs)
 RGBApixel RGBColour::GetPixelColour()
 {
 	RGBApixel pixel;
-	pixel.Red = (int)floor(255 * _red);
-	pixel.Green = (int)floor(255 * _green);
-	pixel.Blue = (int)floor(255 * _blue);
+
+	pixel.Red = (int)floor(255.0 * _red);
+	pixel.Green = (int)floor(255.0 * _green);
+	pixel.Blue = (int)floor(255.0 * _blue);
+
 	return pixel;
 }

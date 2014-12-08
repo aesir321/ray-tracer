@@ -42,6 +42,17 @@ Vector Vector::operator+(const Vector &rhs)
 	return temp;
 }
 
+Vector Vector::operator+(const double &rhs)
+{
+	Vector temp;
+
+	temp._coord1 = _coord1 + rhs;
+	temp._coord2 = _coord2 + rhs;
+	temp._coord3 = _coord3 + rhs;
+
+	return temp;
+}
+
 Vector Vector::operator*(const double &rhs)
 {
 	Vector temp;
@@ -59,6 +70,17 @@ Vector Vector::operator-(const Vector &rhs)
 	temp._coord1 = _coord1 - rhs._coord1;
 	temp._coord2 = _coord2 - rhs._coord2;
 	temp._coord3 = _coord3 - rhs._coord3;
+
+	return temp;
+}
+
+Vector Vector::operator-(const double &rhs)
+{
+	Vector temp;
+
+	temp._coord1 = _coord1 - rhs;
+	temp._coord2 = _coord2 - rhs;
+	temp._coord3 = _coord3 - rhs;
 
 	return temp;
 }

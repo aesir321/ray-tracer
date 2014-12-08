@@ -7,7 +7,7 @@ Sphere::Sphere()
 {
 }
 
-Sphere::Sphere(Vector centre, double radius, double diffuseCoefficient, double reflectionCoefficient)
+Sphere::Sphere(Vector centre, double radius, double diffuseCoefficient, double reflectionCoefficient, double shininess)
 {
 	_a = radius;
 	_b = radius;
@@ -15,6 +15,7 @@ Sphere::Sphere(Vector centre, double radius, double diffuseCoefficient, double r
 	_centre = centre;
 	_diffuseCoefficient = diffuseCoefficient;
 	_reflectionCoefficient = reflectionCoefficient;
+	_shininess = shininess;
 }
 
 Sphere::~Sphere()
