@@ -7,7 +7,7 @@ class Plane : public Shape
 {
 public :
 	Plane();
-	Plane(Vector normal, RGBColour colour, double dimension);
+	Plane(Vector normal, RGBColour colour, double dimension, double diffuseCoefficient, double reflectiveCoefficient, double shininess);
 	~Plane();
 	double Intersection(Ray ray);
 	Vector SurfaceNormal(Ray ray);

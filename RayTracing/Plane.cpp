@@ -5,12 +5,14 @@ Plane::Plane()
 {
 }
 
-Plane::Plane(Vector normal, RGBColour colour, double dimension)
+Plane::Plane(Vector normal, RGBColour colour, double dimension, double diffuseCoefficient, double reflectiveCoefficient, double shininess)
 {
 	_normal = normal;
 	_colour = colour;
-
 	_dimension = dimension; //distance from origin to centre of plane.
+	_diffuseCoefficient = diffuseCoefficient;
+	_reflectionCoefficient = reflectiveCoefficient;
+	_shininess = shininess;
 }
 
 Plane::~Plane()
@@ -30,7 +32,7 @@ double Plane::Intersection(Ray ray)
 	}
 	else
 	{
-		intersection = _normal.ScalarProduct(ray.Origin() * -1 + _dimension) / a;//_normal.ScalarProduct(ray.Origin() + _normal * (-1 * _dimension)) / a;
+		intersection = _normal.ScalarProduct(ray.Origin() * -1 + _dimension) / a;
 
 	}
 

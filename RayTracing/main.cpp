@@ -17,7 +17,7 @@ int main()
 	Vector observer(0, 0, 0);
 
 	//y here is inverted: as easy bmp uses a top left (0,0) representation.
-	Vector lightSourcePosition(0, 0, -1000);
+	Vector lightSourcePosition(-1000, 0, 200);
 	RGBColour white(1, 1, 1);
 	double specularIntensity = 1;
 	double diffuseIntensity = 1;
@@ -33,15 +33,10 @@ int main()
 	scene.Populate(observer);
 	scene.SetAmbientCoefficient(0.5); // What is a realistic value?
 
-	/*Vector planeNormal(0, -1, 0);
-	RGBColour planeColour(1, 1, 1);
-	Plane *plane = new Plane(planeNormal, planeColour, 1);
-	scene.Populate(plane);*/
-
 	//Vector spherePos(195, -195, 500);
 	double shininess = 100;
-	double diffuseCoeffcient = 1;
-	double reflectiveCoefficient = 1;
+	double diffuseCoeffcient = 0.9;
+	double reflectiveCoefficient = 0.9;
 	/*Sphere *sphere = new Sphere(spherePos, 200, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour(0, 1, 0);
 	sphere->SetColour(colour);
@@ -58,6 +53,11 @@ int main()
 	RGBColour colour3(0, 0, 1);
 	sphere3->SetColour(colour3);
 	scene.Populate(sphere3);
+
+	Vector planeNormal(0, -1, 0);
+	RGBColour planeColour(1, 1, 1);
+	Plane *plane = new Plane(planeNormal, planeColour, 201, diffuseCoeffcient, reflectiveCoefficient, shininess);
+	scene.Populate(plane);
 
 	Vector viewportOriginPosition(0, 0, 1);
 	Viewport viewport(5, 5, 500, 500, viewportOriginPosition);
