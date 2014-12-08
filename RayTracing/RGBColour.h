@@ -15,7 +15,8 @@ public:
 	RGBColour operator*(const double& rhs);
 	RGBColour operator/(const RGBColour& rhs);
 	RGBColour operator/(const double& rhs);
-	RGBColour operator+(const RGBColour& rhs);	
+	RGBColour operator+(const double& rhs);	
+	RGBColour operator+(const RGBColour& rhs);
 	RGBColour operator+=(const RGBColour& rhs);
 	bool operator==(const RGBColour &rhs);
 
