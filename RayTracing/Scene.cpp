@@ -97,7 +97,7 @@ int Scene::GetIndexOfClosestShape(std::vector<double> intersections)
 			{
 				max = intersections.at(i);
 			}
-			if (max > 0)
+			if (max > 0) // needs to be > -1
 			{
 				for (int i = 0; i < intersections.size(); i++)
 				{
@@ -128,7 +128,7 @@ RGBColour Scene::TraceRay(Ray ray)
 	{
 		intersections.push_back(_sceneObjects[i]->Intersection(ray));
 	}
-	int indexOfClosestShape = GetIndexOfClosestShape(intersections); //Find a way to refactor this out?  Shouldn't need to do it every time.
+	int indexOfClosestShape = GetIndexOfClosestShape(intersections);
 	
 	if (indexOfClosestShape != -1 && intersections.at(indexOfClosestShape) > _epsilon)
 	{
@@ -164,30 +164,39 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 
 		if (projectionNormalToSource > 0)
 		{
-			std::fstream file;
-			file.open("log.txt", std::ios_base::app);
+			/*std::fstream file;
+			file.open("log.txt", std::ios_base::app);*/
+
 			bool isShadow = false;
 
 			std::vector<double> shadowIntersections;
-
+			
+			Ray temp(incidentRay.Direction(), (_lightSources.at(i).GetPosition() - incidentRay.Direction()));
 			for (int j = 0; j < _sceneObjects.size(); j++)
 			{
-				shadowIntersections.push_back(_sceneObjects.at(j)->Intersection(shadowRay));
+				shadowIntersections.push_back(_sceneObjects.at(j)->Intersection(temp));
 			}
 
 			//Test each point to see if it is in shadow.
 			for (int j = 0; j < shadowIntersections.size(); j++)
 			{
-				Ray test(ray.Direction(), shadowRay.Direction().UnitVector() * shadowIntersections.at(j));
-				file << "magnitude: " << (shadowRay.Direction().UnitVector() * shadowIntersections.at(j)).Magnitude() << std::endl;
-				file << "magnitude 2: " << shadowRay.Direction().Magnitude() << std::endl;
-				file << "test direction: " << (shadowRay.Direction().UnitVector() * shadowIntersections.at(j)).X() << ", " << (shadowRay.Direction().UnitVector() * shadowIntersections.at(j)).Y() << ", " << (shadowRay.Direction().UnitVector() * shadowIntersections.at(j)).Z() << std::endl;
-				
-				if (test.Direction().Magnitude() > _epsilon && test.Direction().Magnitude() <= shadowRay.Direction().Magnitude())
+				if (shadowIntersections.at(j) != -1)
 				{
-					isShadow = true;
-				}	
-				break;
+					Ray test(ray.Direction(), temp.Direction().UnitVector() * shadowIntersections.at(j));
+
+					/*file << "light source: " << _lightSources.at(i).GetPosition().X() << ", " << _lightSources.at(i).GetPosition().Y() << ", " << _lightSources.at(i).GetPosition().Z() << std::endl;
+					file << "incident direction: " << incidentRay.Direction().X() << ", " << incidentRay.Direction().Y() << ", " << incidentRay.Direction().Z() << std::endl;
+					file << "intersection: " << shadowIntersections.at(j) << std::endl;
+					file << "test magnitude: " << test.Direction().Magnitude() << std::endl;
+					file << "temp magnitude: " << temp.Direction().Magnitude() << std::endl;
+					file << "test direction: " << (test.Direction().UnitVector() * shadowIntersections.at(j)).X() << ", " << (test.Direction().UnitVector() * shadowIntersections.at(j)).Y() << ", " << (test.Direction().UnitVector() * shadowIntersections.at(j)).Z() << std::endl;					*/
+
+					if (temp.Direction().Magnitude() > _epsilon && test.Direction().Magnitude() <= temp.Direction().Magnitude() && closestShape != _sceneObjects.at(j))
+					{
+						isShadow = true;
+					}
+					break;
+				}
 			}			
 
 			if (!isShadow)
@@ -196,11 +205,11 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 				specularLight = specularLight + specularReflection(_lightSources.at(i), projectionNormalToSource, closestShape, incidentRay, shadowRay, ray);			
 			}
 
-			file << "isShadow: " << isShadow << std::endl;
-			file << "shadow ray Direction: " << shadowRay.Direction().X() << ", " << shadowRay.Direction().Y() << ", " << shadowRay.Direction().Z() << std::endl;
-			file << "shadow ray Origin: " << shadowRay.Origin().X() << ", " << shadowRay.Origin().Y() << ", " << shadowRay.Origin().Z() << std::endl;
+			/*file << "isShadow: " << isShadow << std::endl;
+			file << "shadow ray Direction: " << temp.Direction().X() << ", " << temp.Direction().Y() << ", " << temp.Direction().Z() << std::endl;
+			file << "shadow ray Origin: " << temp.Origin().X() << ", " << temp.Origin().Y() << ", " << temp.Origin().Z() << std::endl;
 			file << "-------------------------------------------------" << std::endl;
-			file.close();
+			file.close();*/
 		}
 	}
 	return diffuseLight + specularLight;

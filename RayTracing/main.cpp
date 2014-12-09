@@ -19,17 +19,18 @@ int main()
 	//y here is inverted: as easy bmp uses a top left (0,0) representation.
 	double specularIntensity = 1;
 	double diffuseIntensity = 1;
-	Vector lightSourcePosition(-10, -10, -10);
+
+	Vector lightSourcePosition(-100, -10, -100);
 	RGBColour white(255, 255, 255);	
 	LightSource pointLightSource(lightSourcePosition, white, specularIntensity, diffuseIntensity);
 
-	/*Vector lightSourcePosition2(1000, -1000, 600);
+	Vector lightSourcePosition2(1000, -1000, 600);
 	RGBColour red(255, 0, 0);
-	LightSource pointLightSource2(lightSourcePosition2, red, specularIntensity, diffuseIntensity);*/
+	LightSource pointLightSource2(lightSourcePosition2, red, specularIntensity, diffuseIntensity);
 
 	Scene scene;
 	scene.Populate(pointLightSource);
-	//scene.Populate(pointLightSource2);
+	scene.Populate(pointLightSource2);
 	scene.Populate(observer);
 	scene.SetAmbientCoefficient(0.2); // What is a realistic value?
 
@@ -37,27 +38,27 @@ int main()
 	double diffuseCoeffcient = 0.4;
 	double reflectiveCoefficient = 0.8;
 	
-	/*Vector spherePos(0, 10, 100);
+	Vector spherePos(-5, -5, 80);
 	Sphere *sphere = new Sphere(spherePos, 5, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour(0, 255, 0);
 	sphere->SetColour(colour);
 	scene.Populate(sphere);
 
-	Vector spherePos2(0, -10, 100);
+	Vector spherePos2(0, 0, 100);
 	Sphere *sphere2 = new Sphere(spherePos2, 5, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour2(255, 0, 0);
 	sphere2->SetColour(colour2);
-	scene.Populate(sphere2);*/
+	scene.Populate(sphere2);
 
-	Vector spherePos3(0, 0, 100);
-	Sphere *sphere3 = new Sphere(spherePos3, 15, diffuseCoeffcient, reflectiveCoefficient, shininess);
+	Vector spherePos3(10, 0, 120);
+	Sphere *sphere3 = new Sphere(spherePos3, 5, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour3(0, 0, 255);
 	sphere3->SetColour(colour3);
 	scene.Populate(sphere3);
 
 	/*Vector planeNormal(0, -1, 0);
 	RGBColour planeColour(255, 255, 255);
-	Plane *plane = new Plane(planeNormal, planeColour, 600, diffuseCoeffcient, reflectiveCoefficient, shininess);
+	Plane *plane = new Plane(planeNormal, planeColour, 101, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	scene.Populate(plane);*/
 
 	Vector viewportOriginPosition(0, 0, 10);
