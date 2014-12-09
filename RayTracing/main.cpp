@@ -24,34 +24,34 @@ int main()
 	RGBColour white(255, 255, 255);	
 	LightSource pointLightSource(lightSourcePosition, white, specularIntensity, diffuseIntensity);
 
-	Vector lightSourcePosition2(-100, -100, 50);
-	RGBColour white2(255, 255, 255);
-	LightSource pointLightSource2(lightSourcePosition2, white2, specularIntensity, diffuseIntensity);
+	//Vector lightSourcePosition2(-100, -100, 50);
+	//RGBColour white2(255, 255, 255);
+	//LightSource pointLightSource2(lightSourcePosition2, white2, specularIntensity, diffuseIntensity);
 
 	Scene scene;
 	scene.Populate(pointLightSource);
-	scene.Populate(pointLightSource2);
+	
 	scene.Populate(observer);
 	scene.SetAmbientCoefficient(0.5); // What is a realistic value?
 
-	double shininess = 50;
-	double diffuseCoeffcient = 0.2;
-	double reflectiveCoefficient = 0.6;
+	double shininess = 20;
+	double diffuseCoeffcient = 0.8;
+	double reflectiveCoefficient = 1;
 	
-	Vector spherePos(-1, -5, 85);
-	Sphere *sphere = new Sphere(spherePos, 5, diffuseCoeffcient, reflectiveCoefficient, shininess);
+	Vector spherePos(0, 0, 80);
+	Sphere *sphere = new Sphere(spherePos, 15, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour(0, 255, 0);
 	sphere->SetColour(colour);
 	scene.Populate(sphere);
 
-	Vector spherePos2(5, -3, 60);
+	Vector spherePos2(5, 0, 50);
 	Sphere *sphere2 = new Sphere(spherePos2, 3, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour2(255, 0, 0);
 	sphere2->SetColour(colour2);
 	scene.Populate(sphere2);
 
-	Vector spherePos3(-5, 5, 50);
-	Sphere *sphere3 = new Sphere(spherePos3, 5, diffuseCoeffcient, reflectiveCoefficient, shininess);
+	Vector spherePos3(-5, 0, 50);
+	Sphere *sphere3 = new Sphere(spherePos3, 3, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour3(0, 0, 255);
 	sphere3->SetColour(colour3);
 	scene.Populate(sphere3);

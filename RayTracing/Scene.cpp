@@ -72,20 +72,23 @@ void Scene::TraceRays()
 			Vector direction(xRay, yRay, z);
 
 			Ray ray(_observer, direction);
-			
+			/*std::fstream file;
+			file.open("ref-log.txt", std::ios_base::app);
+			file << "x, y: " << x << ", " << y << std::endl;
+			file.close();*/
 			image.SetPixel(x, y, TraceRay(ray).Normalise());
 		}
 	}
-	image.WriteToFile("spheres.bmp");	
+	image.WriteToFile("spheres.bmp");
 }
 
-int Scene::GetIndexOfClosestShape(std::vector<double> intersections)
+int Scene::getIndexOfClosestShape(std::vector<double> intersections)
 {
 	int minimumIntersection = -1;
 
 	if (intersections.size() == 1 && intersections.at(0) > 0)
 	{
-		minimumIntersection =  0; //Only one object so no need to calculate.
+		minimumIntersection = 0; //Only one object so no need to calculate.
 	}
 	else
 	{
@@ -119,18 +122,16 @@ int Scene::GetIndexOfClosestShape(std::vector<double> intersections)
 RGBColour Scene::TraceRay(Ray ray)
 {
 	RGBColour light = _backgroundColour;
-	RGBColour ambientLight;		
+	RGBColour ambientLight;
 
 	std::vector<double> intersections;
-
-	
 
 	for (int i = 0; i < _sceneObjects.size(); i++)
 	{
 		intersections.push_back(_sceneObjects[i]->Intersection(ray));
 	}
-	int indexOfClosestShape = GetIndexOfClosestShape(intersections);
-	
+	int indexOfClosestShape = getIndexOfClosestShape(intersections);
+
 	if (indexOfClosestShape != -1 && intersections.at(indexOfClosestShape) > _epsilon)
 	{
 		Ray incidentRay = ray.RayLine(intersections.at(indexOfClosestShape));
@@ -165,13 +166,10 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 
 		if (projectionNormalToSource > 0)
 		{
-			/*std::fstream file;
-			file.open("log.txt", std::ios_base::app);*/
-
 			bool isShadow = false;
 
 			std::vector<double> shadowIntersections;
-			
+
 			Ray temp(incidentRay.Direction(), (_lightSources.at(i).GetPosition() - incidentRay.Direction()));
 			for (int j = 0; j < _sceneObjects.size(); j++)
 			{
@@ -184,33 +182,19 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 				if (shadowIntersections.at(j) != -1)
 				{
 					Ray test(ray.Direction(), temp.Direction().UnitVector() * shadowIntersections.at(j));
-
-					/*file << "light source: " << _lightSources.at(i).GetPosition().X() << ", " << _lightSources.at(i).GetPosition().Y() << ", " << _lightSources.at(i).GetPosition().Z() << std::endl;
-					file << "incident direction: " << incidentRay.Direction().X() << ", " << incidentRay.Direction().Y() << ", " << incidentRay.Direction().Z() << std::endl;
-					file << "intersection: " << shadowIntersections.at(j) << std::endl;
-					file << "test magnitude: " << test.Direction().Magnitude() << std::endl;
-					file << "temp magnitude: " << temp.Direction().Magnitude() << std::endl;
-					file << "test direction: " << (test.Direction().UnitVector() * shadowIntersections.at(j)).X() << ", " << (test.Direction().UnitVector() * shadowIntersections.at(j)).Y() << ", " << (test.Direction().UnitVector() * shadowIntersections.at(j)).Z() << std::endl;					*/
-
 					if (temp.Direction().Magnitude() > _epsilon && test.Direction().Magnitude() <= temp.Direction().Magnitude() && closestShape != _sceneObjects.at(j))
 					{
 						isShadow = true;
 					}
 					break;
 				}
-			}			
+			}
 
 			if (!isShadow)
 			{
 				diffuseLight = diffuseLight + (closestShape->Colour() * projectionNormalToSource * closestShape->DiffuseCoefficient() * _lightSources.at(i).DiffuseIntensity());
-				specularLight = specularLight + specularReflection(_lightSources.at(i), projectionNormalToSource, closestShape, incidentRay, shadowRay, ray);			
+				specularLight = specularLight + specularReflection(_lightSources.at(i), projectionNormalToSource, closestShape, incidentRay, temp, ray);
 			}
-
-			/*file << "isShadow: " << isShadow << std::endl;
-			file << "shadow ray Direction: " << temp.Direction().X() << ", " << temp.Direction().Y() << ", " << temp.Direction().Z() << std::endl;
-			file << "shadow ray Origin: " << temp.Origin().X() << ", " << temp.Origin().Y() << ", " << temp.Origin().Z() << std::endl;
-			file << "-------------------------------------------------" << std::endl;
-			file.close();*/
 		}
 	}
 	return diffuseLight + specularLight;
@@ -219,6 +203,7 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 RGBColour Scene::specularReflection(LightSource lightSource, double projectionNormalToSource, Shape *closestShape, Ray incidentRay, Ray rayToSource, Ray ray)
 {
 	RGBColour specularLight;
+
 	if (closestShape->ReflectionCoefficient() > 0)//Is the shape reflective?
 	{
 		Vector reflectionSurfaceNormal = closestShape->SurfaceNormal(incidentRay);
@@ -227,7 +212,7 @@ RGBColour Scene::specularReflection(LightSource lightSource, double projectionNo
 
 		if (specularIllumination > 0)
 		{
-			specularIllumination = pow(specularIllumination, closestShape->Shininess()); //^alpha
+			specularIllumination = pow(specularIllumination, closestShape->Shininess());
 			specularLight = specularLight + lightSource.Colour() * specularIllumination * closestShape->ReflectionCoefficient() * lightSource.SpecularIntensity();
 		}
 	}
@@ -239,7 +224,7 @@ RGBColour Scene::reflectRays(Shape *shape, Ray incidentRay, Ray ray)
 	RGBColour totalReflectedLight;
 	Vector reflectionSurfaceNormal = shape->SurfaceNormal(incidentRay);
 	Ray reflectedRay = incidentRay.Reflection(reflectionSurfaceNormal);
-
+	RGBColour temp(255, 255, 255);
 	std::vector<double> reflectionIntersections;
 
 	for (int i = 0; i < _sceneObjects.size(); i++)
@@ -247,19 +232,19 @@ RGBColour Scene::reflectRays(Shape *shape, Ray incidentRay, Ray ray)
 		reflectionIntersections.push_back(_sceneObjects.at(i)->Intersection(reflectedRay));
 	}
 
-	int indexOfClosestReflectedShape = GetIndexOfClosestShape(reflectionIntersections);
-	
+	int indexOfClosestReflectedShape = getIndexOfClosestShape(reflectionIntersections);
+
 	if (indexOfClosestReflectedShape != -1 && indexOfClosestReflectedShape > _epsilon && _sceneObjects[indexOfClosestReflectedShape] != shape)
 	{
 		Shape *closestReflectedShape = _sceneObjects[indexOfClosestReflectedShape];
 		Vector reflectedIntersectionDirection = reflectedRay.Direction().UnitVector() * reflectionIntersections.at(indexOfClosestReflectedShape) * -1;
-		
+
 		Ray test(reflectedRay.Origin(), reflectedIntersectionDirection);
-		RGBColour reflectedLight = illumination(test, closestReflectedShape, closestReflectedShape->Colour(), test);
+		RGBColour reflectedLight = illumination(test, closestReflectedShape, closestReflectedShape->Colour(), reflectedRay);//test
 		totalReflectedLight = totalReflectedLight + reflectedLight;
 
 		std::fstream file;
-		file.open("reflectionlog.txt", std::ios_base::app,std::fstream::trunc);
+		file.open("reflectionlog.txt", std::ios_base::app, std::fstream::trunc);
 		file << "reflectionSurface normal: " << reflectionSurfaceNormal.X() << ", " << reflectionSurfaceNormal.Y() << ", " << reflectionSurfaceNormal.Z() << ", " << std::endl;
 		file << "incident ray origin: " << incidentRay.Origin().X() << ", " << incidentRay.Origin().Y() << ", " << incidentRay.Origin().Z() << ", " << std::endl;
 		file << "incident ray direction: " << incidentRay.Direction().X() << ", " << incidentRay.Direction().Y() << ", " << incidentRay.Direction().Z() << ", " << std::endl;
@@ -272,7 +257,6 @@ RGBColour Scene::reflectRays(Shape *shape, Ray incidentRay, Ray ray)
 		file << "reflected light: " << reflectedLight.Red() << ", " << reflectedLight.Green() << ", " << reflectedLight.Blue() << std::endl;
 		file << "------------------------------------------------" << std::endl;
 		file.close();
-
 	}
 	return totalReflectedLight;
 }
