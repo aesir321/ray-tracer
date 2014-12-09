@@ -9,12 +9,8 @@ public :
 	Ellipsoid();
 	Ellipsoid(double a, double b, double c);
 	~Ellipsoid();
-	double Area();
-	double SurfaceArea();
 	Vector SurfaceNormal(Ray ray);
 	double Intersection(Ray ray);
-	double Volume();
-	void Name();
 
 protected :
 	double _a;

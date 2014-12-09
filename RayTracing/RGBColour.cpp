@@ -1,4 +1,5 @@
 #include "RGBColour.h"
+#include <algorithm>
 
 /* TODO
 	* Brightness
@@ -123,8 +124,22 @@ bool RGBColour::operator==(const RGBColour &rhs)
 	return equal;
 }
 
-RGBApixel RGBColour::GetPixelColour()
+RGBApixel RGBColour::Normalise()
 {
+	double light = _red + _green + _blue;
+	double rgbOverflow = light - (255 * 3);
+
+	if (rgbOverflow > 0)
+	{
+		_red = _red + rgbOverflow * _red / light;
+		_green = _green + rgbOverflow * _green / light;
+		_blue = _blue + rgbOverflow * _blue / light;
+	}
+
+	_red = (int)floor(std::max(0.0, std::min(_red, 255.0)));
+	_green = (int)floor(std::max(0.0, std::min(_green, 255.0)));
+	_blue = (int)floor(std::max(0.0, std::min(_blue, 255.0)));	
+
 	RGBApixel pixel;
 
 	pixel.Red = _red;

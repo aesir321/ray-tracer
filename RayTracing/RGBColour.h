@@ -20,7 +20,7 @@ public:
 	RGBColour operator+=(const RGBColour& rhs);
 	bool operator==(const RGBColour &rhs);
 
-	RGBApixel GetPixelColour();
+	RGBApixel Normalise();
 	double Red();
 	double Green();
 	double Blue();

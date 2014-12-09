@@ -65,7 +65,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Cuboid.cpp" />
     <ClCompile Include="Ellipsoid.cpp" />
     <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="main.cpp" />
@@ -79,7 +78,6 @@
     <ClCompile Include="Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cuboid.h" />
     <ClInclude Include="Ellipsoid.h" />
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="Plane.h" />
@@ -90,6 +88,10 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Viewport.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

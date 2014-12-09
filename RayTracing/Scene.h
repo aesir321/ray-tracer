@@ -21,7 +21,6 @@ class Scene
 	  void Populate(Vector observer);
 	  void Populate(Viewport viewport);
 	  void TraceRays();
-	  void AddViewPort(Viewport viewport);
 	  RGBColour TraceRay(Ray ray);
 	  int GetIndexOfClosestShape(std::vector<double> intersections);
 	  void SetAmbientCoefficient(double ambientCoefficient);
