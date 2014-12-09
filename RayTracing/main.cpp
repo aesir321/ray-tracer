@@ -36,7 +36,7 @@ int main()
 
 	double shininess = 20;
 	double diffuseCoeffcient = 0.4;
-	double reflectiveCoefficient = 0.8;
+	double reflectiveCoefficient = 0.9;
 
 	Vector spherePos(-5, 0, 80);
 	Sphere *sphere = new Sphere(spherePos, 5, diffuseCoeffcient, reflectiveCoefficient, shininess);
