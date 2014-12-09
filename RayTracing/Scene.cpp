@@ -156,7 +156,7 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 
 	for (int i = 0; i < _lightSources.size(); i++)
 	{
-		Ray shadowRay(incidentRay.Direction(), (_lightSources.at(i).GetPosition() - incidentRay.Direction()).UnitVector());
+		Ray shadowRay(incidentRay.Direction(), (_lightSources.at(i).GetPosition() - incidentRay.Direction()).UnitVector()); //rename as source ray
 
 		Vector surfaceNormal = closestShape->SurfaceNormal(incidentRay);
 
@@ -166,7 +166,8 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 		if (projectionNormalToSource > 0)
 		{
 			/*std::fstream file;
-			file.open("log.txt", std::ios_base::app);*/
+			file.open("shadowlog.txt", std::ios_base::app);
+			file << "shape: " << closestShape->Centre().X() << std::endl;*/
 
 			bool isShadow = false;
 
@@ -183,20 +184,21 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 			{
 				if (shadowIntersections.at(j) != -1)
 				{
-					Ray test(ray.Direction(), temp.Direction().UnitVector() * shadowIntersections.at(j));
+					Ray test(ray.Direction(), shadowRay.Direction().UnitVector() * shadowIntersections.at(j));
 
 					/*file << "light source: " << _lightSources.at(i).GetPosition().X() << ", " << _lightSources.at(i).GetPosition().Y() << ", " << _lightSources.at(i).GetPosition().Z() << std::endl;
 					file << "incident direction: " << incidentRay.Direction().X() << ", " << incidentRay.Direction().Y() << ", " << incidentRay.Direction().Z() << std::endl;
 					file << "intersection: " << shadowIntersections.at(j) << std::endl;
 					file << "test magnitude: " << test.Direction().Magnitude() << std::endl;
 					file << "temp magnitude: " << temp.Direction().Magnitude() << std::endl;
-					file << "test direction: " << (test.Direction().UnitVector() * shadowIntersections.at(j)).X() << ", " << (test.Direction().UnitVector() * shadowIntersections.at(j)).Y() << ", " << (test.Direction().UnitVector() * shadowIntersections.at(j)).Z() << std::endl;					*/
-
-					if (temp.Direction().Magnitude() > _epsilon && test.Direction().Magnitude() <= temp.Direction().Magnitude() && closestShape != _sceneObjects.at(j))
+					file << "test direction: " << (test.Direction().UnitVector() * shadowIntersections.at(j)).X() << ", " << (test.Direction().UnitVector() * shadowIntersections.at(j)).Y() << ", " << (test.Direction().UnitVector() * shadowIntersections.at(j)).Z() << std::endl;
+*/
+					if (test.Direction().Magnitude() > _epsilon && test.Direction().Magnitude() <= temp.Direction().Magnitude() && closestShape != _sceneObjects.at(j))
 					{
 						isShadow = true;
+						break;
 					}
-					break;
+					//break;
 				}
 			}			
 
@@ -207,8 +209,10 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 			}
 
 			/*file << "isShadow: " << isShadow << std::endl;
-			file << "shadow ray Direction: " << temp.Direction().X() << ", " << temp.Direction().Y() << ", " << temp.Direction().Z() << std::endl;
-			file << "shadow ray Origin: " << temp.Origin().X() << ", " << temp.Origin().Y() << ", " << temp.Origin().Z() << std::endl;
+			file << "shadow ray Direction: " << shadowRay.Direction().X() << ", " << shadowRay.Direction().Y() << ", " << shadowRay.Direction().Z() << std::endl;
+			file << "shadow ray Origin: " << shadowRay.Origin().X() << ", " << shadowRay.Origin().Y() << ", " << shadowRay.Origin().Z() << std::endl;
+			file << "temp Direction: " << temp.Direction().X() << ", " << temp.Direction().Y() << ", " << temp.Direction().Z() << std::endl;
+			file << "temp Origin: " << temp.Origin().X() << ", " << temp.Origin().Y() << ", " << temp.Origin().Z() << std::endl;
 			file << "-------------------------------------------------" << std::endl;
 			file.close();*/
 		}
@@ -258,7 +262,7 @@ RGBColour Scene::reflectRays(Shape *shape, Ray incidentRay, Ray ray)
 		RGBColour reflectedLight = illumination(test, closestReflectedShape, closestReflectedShape->Colour(), test);
 		totalReflectedLight = totalReflectedLight + reflectedLight;
 
-		std::fstream file;
+		/*std::fstream file;
 		file.open("reflectionlog.txt", std::ios_base::app,std::fstream::trunc);
 		file << "reflectionSurface normal: " << reflectionSurfaceNormal.X() << ", " << reflectionSurfaceNormal.Y() << ", " << reflectionSurfaceNormal.Z() << ", " << std::endl;
 		file << "incident ray origin: " << incidentRay.Origin().X() << ", " << incidentRay.Origin().Y() << ", " << incidentRay.Origin().Z() << ", " << std::endl;
@@ -271,7 +275,7 @@ RGBColour Scene::reflectRays(Shape *shape, Ray incidentRay, Ray ray)
 		file << "test Direction: " << test.Direction().X() << ", " << test.Direction().Y() << ", " << test.Direction().Z() << ", " << std::endl;
 		file << "reflected light: " << reflectedLight.Red() << ", " << reflectedLight.Green() << ", " << reflectedLight.Blue() << std::endl;
 		file << "------------------------------------------------" << std::endl;
-		file.close();
+		file.close();*/
 
 	}
 	return totalReflectedLight;
