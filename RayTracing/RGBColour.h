@@ -10,12 +10,16 @@ public:
 	RGBColour();
 	RGBColour(double red, double green, double blue);
 	~RGBColour();
+
 	RGBColour operator*(const RGBColour& rhs);
 	RGBColour operator*(const double& rhs);
 	RGBColour operator/(const RGBColour& rhs);
 	RGBColour operator/(const double& rhs);
-	RGBColour operator+(const double& rhs);	
 	RGBColour operator+(const RGBColour& rhs);
+	RGBColour operator+(const double& rhs);	
+	RGBColour operator-(const RGBColour& rhs);
+	RGBColour operator-(const double& rhs);
+
 	bool operator==(const RGBColour &rhs);
 
 	RGBApixel Normalise();

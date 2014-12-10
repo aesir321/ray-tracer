@@ -1,15 +1,16 @@
 #include "Plane.h"
-#include <fstream>
+
 
 Plane::Plane()
 {
+
 }
 
 Plane::Plane(Vector normal, RGBColour colour, double dimension, double diffuseCoefficient, double reflectiveCoefficient, double shininess)
 {
 	_normal = normal;
 	_colour = colour;
-	_dimension = dimension; //distance from origin to centre of plane.
+	_dimension = dimension;
 	_diffuseCoefficient = diffuseCoefficient;
 	_reflectionCoefficient = reflectiveCoefficient;
 	_shininess = shininess;
@@ -20,9 +21,8 @@ Plane::~Plane()
 }
 
 
-double Plane::Intersection(Ray ray)
+double Plane::Intersection(Ray ray, double epsilon)
 {
-	
 	double intersection = 0.0;
 	double a = ray.Direction().UnitVector().ScalarProduct(_normal);
 

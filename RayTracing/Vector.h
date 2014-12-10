@@ -1,8 +1,10 @@
 #ifndef VECTOR_H
 #define VECTOR_H
+
 class Vector
 {
 public:
+
 	Vector();
 	Vector(double coord1, double coord2, double coord3);
 	~Vector();
@@ -20,9 +22,9 @@ public:
 	Vector operator-(const Vector &rhs);
 	Vector operator-(const double &rhs);
 	Vector operator/(const Vector &rhs);
-	Vector operator/(const double &rhs);	
+	Vector operator/(const double &rhs);
 
-protected:
+private:
 
 	double _coord1;
 	double _coord2;

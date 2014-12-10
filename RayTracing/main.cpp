@@ -10,9 +10,7 @@ using namespace std;
 /* TODO
 * Build scene script?
 * REmove ellipsoid
-* Overload all operators for vector and RGBColour
 * File management
-* Fix reflections
 * Fix plane
 */
 
@@ -74,13 +72,57 @@ void renderSceneOne()
 
 void renderSceneTwo()
 {
+	Vector observer(0, 0, 0);
 
+	//y here is inverted: as easy bmp uses a top left (0,0) representation.
+	double specularIntensity = 0.8;
+	double diffuseIntensity = 0.2;
+
+	Vector lightSourcePosition(-100, -100, 10);
+	RGBColour white(255, 255, 255);
+	LightSource pointLightSource(lightSourcePosition, white, specularIntensity, diffuseIntensity);
+
+	Scene scene;
+	scene.Populate(pointLightSource);
+	scene.Populate(observer);
+	scene.SetAmbientCoefficient(0.5);
+
+	Vector spherePos(-7, -7, 100);
+	Sphere *sphere = new Sphere(spherePos, 5, 0.3, 0.8, 150);
+	RGBColour colour(0, 255, 0);
+	sphere->SetColour(colour);
+	scene.Populate(sphere);
+
+	Vector spherePos2(3, 3, 20);
+	Sphere *sphere2 = new Sphere(spherePos2, 2, 0.6, 0.2, 60);
+	RGBColour colour2(54, 218, 251);
+	sphere2->SetColour(colour2);
+	scene.Populate(sphere2);
+
+	Vector spherePos3(10, 0, 60);
+	Sphere *sphere3 = new Sphere(spherePos3, 5, 0.8, 0.8, 90);
+	RGBColour colour3(250, 142, 241);
+	sphere3->SetColour(colour3);
+	scene.Populate(sphere3);
+
+	Vector viewportOriginPosition(0, 0, 10);
+	Viewport viewport(5, 5, 500, 500, viewportOriginPosition);
+	scene.Populate(viewport);
+
+	scene.TraceRays();
+}
+
+void renderSceneThree()
+{
+	
 }
 
 
 int main()
 {
-	
+	renderSceneOne();
+	//renderSceneTwo();
+	//renderSceneThree();
 
 	return 0;
 }

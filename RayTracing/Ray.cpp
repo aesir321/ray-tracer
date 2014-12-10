@@ -1,8 +1,4 @@
 #include "Ray.h"
-#include "math.h"
-#include <iostream>
-#include <fstream>
-#include <vector>
 
 Ray::Ray()
 {
@@ -20,6 +16,7 @@ Ray::Ray(Vector origin, Vector direction)
 
 Ray::~Ray()
 {
+
 }
 
 Ray Ray::Reflection(Vector surfaceNormal)
@@ -35,30 +32,6 @@ Ray Ray::Refraction()
 {
   return Ray();
 }
-
-/*RGBColour Ray::Illumination(std::vector<LightSource> lightSources, RGBColour shapeColour, double diffuseCoefficient)
-{
-	double gamma = 1;
-	double illumination = 0.0;
-	RGBColour colour(0,0,0);
-
-	for (unsigned int i = 0; i < lightSources.size(); i++)
-	{
-		Vector rayToSource = (lightSources.at(i).GetPosition() - _origin).UnitVector();
-		illumination = rayToSource.ScalarProduct(_direction.UnitVector());
-
-		if (illumination <= 0)
-		{
-			continue;
-		}
-
-		illumination = pow(illumination, gamma);
-
-		colour = (shapeColour * illumination * diffuseCoefficient) + (shapeColour * lightSources.at(i).AmbientCoefficient()) + (shapeColour * lightSources.at(i).Colour() * illumination);
-	}
-
-	return colour;
-}*/
 
 Vector Ray::Direction()
 {

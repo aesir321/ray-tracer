@@ -1,7 +1,6 @@
 #include "Sphere.h"
 
 #include <cmath>
-#include <iostream>
 
 Sphere::Sphere()
 {
@@ -20,13 +19,13 @@ Sphere::Sphere(Vector centre, double radius, double diffuseCoefficient, double r
 
 Sphere::~Sphere()
 {
+
 }
 
 Vector Sphere::SurfaceNormal(Ray incidentRay)
 {
 	Vector temp(incidentRay.Direction() - Centre());
-	Vector normal = temp / temp.Magnitude();
-	return normal;
+	return temp / temp.Magnitude();
 }
 
 double Sphere::Radius()
@@ -34,10 +33,10 @@ double Sphere::Radius()
 	return _a;
 }
 
-double Sphere::Intersection(Ray ray) //Don't need to check for repeated root.  CHECK IF THERE IS A VMIN FIRST.
+double Sphere::Intersection(Ray ray, double epsilon)
 {
 	Vector rayVec = (ray.Direction() - ray.Origin()).UnitVector(); //MAKE SENSE TO DO THIS HERE OR IN THE CALING METHOD?
-	
+
 	double a = rayVec.ScalarProduct(rayVec);
 	Vector temp = ray.Origin() - Centre();
 	double b = rayVec.ScalarProduct(temp);
@@ -52,8 +51,8 @@ double Sphere::Intersection(Ray ray) //Don't need to check for repeated root.  C
 
 	if (discriminant > 0)
 	{
-		root1 = (-b + sqrt(discriminant)) - 0.000001;
-		root2 = (-b - sqrt(discriminant)) - 0.000001;
+		root1 = (-b + sqrt(discriminant)) - epsilon;
+		root2 = (-b - sqrt(discriminant)) - epsilon;
 
 		if (root1 <= 0.0 && root2 <= 0.0)
 		{

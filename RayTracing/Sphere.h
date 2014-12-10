@@ -7,12 +7,14 @@
 
 class Sphere : public Ellipsoid
 {
-public :
+public:
+
 	Sphere();
 	Sphere(Vector centre, double radius, double diffuseCoefficient, double reflectionCoefficient, double shininess);
 	~Sphere();
+
 	Vector SurfaceNormal(Ray ray);
-	double Intersection(Ray ray);
+	double Intersection(Ray ray, double epsilon);
 	double Radius();
 };
 

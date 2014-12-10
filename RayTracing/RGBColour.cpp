@@ -45,6 +45,7 @@ double RGBColour::Blue()
 RGBColour RGBColour::operator*(const RGBColour &rhs)
 {
 	RGBColour temp;
+
 	temp._red = _red * rhs._red;
 	temp._green = _green * rhs._green;
 	temp._blue = _blue  * rhs._blue;
@@ -55,6 +56,7 @@ RGBColour RGBColour::operator*(const RGBColour &rhs)
 RGBColour RGBColour::operator+(const RGBColour &rhs)
 {
 	RGBColour temp;
+
 	temp._red = _red + rhs._red;
 	temp._green = _green + rhs._green;
 	temp._blue = _blue  + rhs._blue;
@@ -65,6 +67,7 @@ RGBColour RGBColour::operator+(const RGBColour &rhs)
 RGBColour RGBColour::operator+(const double &rhs)
 {
 	RGBColour temp;
+
 	temp._red = _red + rhs;
 	temp._green = _green + rhs;
 	temp._blue = _blue + rhs;
@@ -75,6 +78,7 @@ RGBColour RGBColour::operator+(const double &rhs)
 RGBColour RGBColour::operator*(const double &rhs)
 {
 	RGBColour temp;
+
 	temp._red = _red * rhs;
 	temp._green = _green * rhs;
 	temp._blue = _blue  * rhs;
@@ -85,6 +89,7 @@ RGBColour RGBColour::operator*(const double &rhs)
 RGBColour RGBColour::operator/(const RGBColour &rhs)
 {
 	RGBColour temp;
+
 	temp._red = _red / rhs._red;
 	temp._green = _green / rhs._green;
 	temp._blue = _blue  / rhs._blue;
@@ -95,9 +100,32 @@ RGBColour RGBColour::operator/(const RGBColour &rhs)
 RGBColour RGBColour::operator/(const double &rhs)
 {
 	RGBColour temp;
+
 	temp._red = _red / rhs;
 	temp._green = _green / rhs;
 	temp._blue = _blue  / rhs;
+
+	return temp;
+}
+
+RGBColour RGBColour::operator-(const double &rhs)
+{
+	RGBColour temp;
+
+	temp._red = _red - rhs;
+	temp._green = _green - rhs;
+	temp._blue = _blue - rhs;
+
+	return temp;
+}
+
+RGBColour RGBColour::operator-(const RGBColour &rhs)
+{
+	RGBColour temp;
+
+	temp._red = _red - rhs._red;
+	temp._green = _green - rhs._green;
+	temp._blue = _blue - rhs._blue;
 
 	return temp;
 }

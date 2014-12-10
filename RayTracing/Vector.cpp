@@ -1,8 +1,7 @@
 #include "Vector.h"
 #include<cmath>
-#include<iostream>
 
-Vector::Vector() //Default
+Vector::Vector()
 {
 	_coord1 = 0.0;
 	_coord2 = 0.0;

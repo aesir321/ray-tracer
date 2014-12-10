@@ -15,6 +15,7 @@ LightSource::LightSource(Vector position, RGBColour colour, double specularInten
 
 LightSource::~LightSource()
 {
+
 }
 
 Vector LightSource::GetPosition()
