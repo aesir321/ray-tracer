@@ -182,7 +182,7 @@ RGBColour Scene::illumination(Ray incidentRay, Shape *closestShape, RGBColour sh
 			{
 				shadowIntersections.push_back(_sceneObjects.at(j)->Intersection(temp));
 			}
-
+			//test
 			//Test each point to see if it is in shadow.
 			for (int j = 0; j < shadowIntersections.size(); j++)
 			{
