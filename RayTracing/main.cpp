@@ -28,6 +28,8 @@ int main()
 	RGBColour red(255, 255, 255);
 	LightSource pointLightSource2(lightSourcePosition2, red, specularIntensity, diffuseIntensity);
 
+	//test
+
 	Scene scene;
 	//scene.Populate(pointLightSource);
 	scene.Populate(pointLightSource2);
