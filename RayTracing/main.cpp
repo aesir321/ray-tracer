@@ -39,7 +39,7 @@ int main()
 
 	//test
 
-	Scene scene;
+	Scene sceneaaa;
 	//scene.Populate(pointLightSource);
 	scene.Populate(pointLightSource2);
 >>>>>>> normColour
