@@ -52,8 +52,8 @@ double Sphere::Intersection(Ray ray) //Don't need to check for repeated root.  C
 
 	if (discriminant > 0)
 	{
-		root1 = (-b + sqrt(discriminant));
-		root2 = (-b - sqrt(discriminant));
+		root1 = (-b + sqrt(discriminant)) - 0.000001;
+		root2 = (-b - sqrt(discriminant)) - 0.000001;
 
 		if (root1 <= 0.0 && root2 <= 0.0)
 		{

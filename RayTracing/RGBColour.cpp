@@ -127,13 +127,13 @@ RGBApixel RGBColour::Normalise()
 
 	_red = (int)floor(std::max(0.0, std::min(_red, 255.0)));
 	_green = (int)floor(std::max(0.0, std::min(_green, 255.0)));
-	_blue = (int)floor(std::max(0.0, std::min(_blue, 255.0)));	
+	_blue = (int)floor(std::max(0.0, std::min(_blue, 255.0)));
 
 	RGBApixel pixel;
 
-	pixel.Red = _red;
-	pixel.Green = _green;
-	pixel.Blue = _blue;
+	pixel.Red = (ebmpBYTE)_red;
+	pixel.Green = (ebmpBYTE)_green;
+	pixel.Blue = (ebmpBYTE)_blue;
 
 	return pixel;
 }

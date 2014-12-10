@@ -3,7 +3,6 @@
 
 #include "EasyBMP.h"
 
-
 class RGBColour
 {
 public:
