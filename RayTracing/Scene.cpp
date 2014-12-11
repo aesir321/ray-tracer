@@ -3,6 +3,7 @@
 #include "Shape.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #include "EasyBMP.h"
 #include "EasyBMP_BMP.h"
@@ -56,7 +57,7 @@ void Scene::SetAmbientCoefficient(double ambientCoefficient)
 }
 
 //Return BMP object.  Have this passed to a class which does file management?
-void Scene::TraceRays()
+void Scene::TraceRays(const char *filename)
 {
 	BMP image;
 	image.SetSize(_viewport.XPixels(), _viewport.YPixels());
@@ -78,7 +79,7 @@ void Scene::TraceRays()
 		}
 	}
 
-	image.WriteToFile("spheres.bmp");
+	image.WriteToFile(filename);
 }
 
 int Scene::getIndexOfClosestShape(std::vector<double> intersections)

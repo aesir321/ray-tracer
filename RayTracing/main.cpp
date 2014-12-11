@@ -58,16 +58,11 @@ void renderSceneOne()
 	sphere3->SetColour(colour3);
 	scene.Populate(sphere3);
 
-	Vector planeNormal(0, -1, 0);
-	RGBColour planeColour(0, 0, 0);
-	Plane *plane = new Plane(planeNormal, planeColour, 101, 0.1, 0.2, shininess);
-	scene.Populate(plane);
-
 	Vector viewportOriginPosition(0, 0, 10);
 	Viewport viewport(5, 5, 500, 500, viewportOriginPosition);
 	scene.Populate(viewport);
 
-	scene.TraceRays();
+	scene.TraceRays("varying-sized-spheres.bmp");
 }
 
 void renderSceneTwo()
@@ -94,7 +89,7 @@ void renderSceneTwo()
 	scene.Populate(sphere);
 
 	Vector spherePos2(3, 3, 20);
-	Sphere *sphere2 = new Sphere(spherePos2, 2, 0.6, 0.2, 60);
+	Sphere *sphere2 = new Sphere(spherePos2, 2, 0.6, 0.8, 60);
 	RGBColour colour2(54, 218, 251);
 	sphere2->SetColour(colour2);
 	scene.Populate(sphere2);
@@ -105,11 +100,21 @@ void renderSceneTwo()
 	sphere3->SetColour(colour3);
 	scene.Populate(sphere3);
 
+	Vector planeNormal(0, 0, 1);
+	RGBColour planeColour(0, 255, 255);
+	Plane *plane = new Plane(planeNormal, planeColour, 102, 0.6, 0.7, 0.9);
+	scene.Populate(plane);
+
+	Vector planeNormal1(0, -1, 0);
+	RGBColour planeColour1(200, 200, 200);
+	Plane *plane1 = new Plane(planeNormal1, planeColour1, 11, 0.2, 0.6, 0.9);
+	scene.Populate(plane1);
+
 	Vector viewportOriginPosition(0, 0, 10);
 	Viewport viewport(5, 5, 500, 500, viewportOriginPosition);
 	scene.Populate(viewport);
 
-	scene.TraceRays();
+	scene.TraceRays("plane-testing.bmp");
 }
 
 void renderSceneThree()
@@ -145,7 +150,7 @@ void renderSceneThree()
 	sphere2->SetColour(colour2);
 	scene.Populate(sphere2);
 
-	Vector spherePos3(0, 3.5, 100);
+	Vector spherePos3(0, 4, 100);
 	Sphere *sphere3 = new Sphere(spherePos3, 5, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour3(0, 0, 255);
 	sphere3->SetColour(colour3);
@@ -163,13 +168,13 @@ void renderSceneThree()
 	sphere5->SetColour(colour5);
 	scene.Populate(sphere5);
 
-	Vector spherePos6(-5, 10.5, 80);
+	Vector spherePos6(-5, 12, 80);
 	Sphere *sphere6 = new Sphere(spherePos6, 5, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour6(255, 145, 0);
 	sphere6->SetColour(colour6);
 	scene.Populate(sphere6);
 
-	Vector spherePos7(5, 10.5, 80);
+	Vector spherePos7(5, 12, 80);
 	Sphere *sphere7 = new Sphere(spherePos7, 5, diffuseCoeffcient, reflectiveCoefficient, shininess);
 	RGBColour colour7(255, 0, 255);
 	sphere7->SetColour(colour7);
@@ -179,14 +184,14 @@ void renderSceneThree()
 	Viewport viewport(5, 5, 1000, 1000, viewportOriginPosition);
 	scene.Populate(viewport);
 
-	scene.TraceRays();
+	scene.TraceRays("reflecting-coloured-spheres.bmp");
 }
 
 
 int main()
 {
-	//renderSceneOne();
-	//renderSceneTwo();
+	renderSceneOne();
+	renderSceneTwo();
 	renderSceneThree();
 
 	return 0;

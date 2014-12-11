@@ -21,7 +21,7 @@ public:
 	void Populate(LightSource lightSource);
 	void Populate(Vector observer);
 	void Populate(Viewport viewport);
-	void TraceRays();
+	void TraceRays(const char *filename);
 	RGBColour TraceRay(Ray ray);
 	void SetAmbientCoefficient(double ambientCoefficient);
 
