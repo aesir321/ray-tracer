@@ -34,12 +34,13 @@ private :
 	double _ambientCoefficient;
 	//Used for accuracy calculations to control arthimetic errors in performing calculations with small numbers.  
 	//If greater than epsilon point is taken to be the outside of the sphere, if less then the inside.
-	const double _epsilon = 0.00000001;
+	const double _epsilon = 0.0000001;
 
 	RGBColour illumination(Ray incidentRay, Shape *closestShape, RGBColour objectColour, Ray ray);
 	RGBColour specularReflection(LightSource lightSource, double projectionNormalToSource, Shape *closestShape, Ray incidentRay, Ray rayToSource, Ray ray);
 	RGBColour reflectRays(Shape *shape, Ray incidentRay, Ray ray);
 	int getIndexOfClosestShape(std::vector<double> intersections); //should be private
+	
 };
 
 #endif

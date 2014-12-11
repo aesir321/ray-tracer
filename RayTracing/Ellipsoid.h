@@ -1,4 +1,3 @@
-// Author: Will Parker
 #ifndef ELLIP_H
 #define ELLIP_H
 #include "Shape.h"
