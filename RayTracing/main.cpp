@@ -180,13 +180,17 @@ void renderSceneThree()
 	sphere7->SetColour(colour7);
 	scene.Populate(sphere7);
 
+	Vector planeNormal(0, 0, 1);
+	RGBColour planeColour(125, 125, 125);
+	Plane *plane = new Plane(planeNormal, planeColour, 102, 0.6, 0.7, 0.9);
+	scene.Populate(plane);
+
 	Vector viewportOriginPosition(0, 0, 10);
 	Viewport viewport(5, 5, 1000, 1000, viewportOriginPosition);
 	scene.Populate(viewport);
 
 	scene.TraceRays("reflecting-coloured-spheres.bmp");
 }
-
 
 int main()
 {

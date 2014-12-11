@@ -28,6 +28,21 @@ void Shape::SetColour(RGBColour colour)
 	_colour = colour;
 }
 
+void Shape::SetDiffuseCoefficient(double diffuseCoefficient)
+{
+	_diffuseCoefficient = diffuseCoefficient;
+}
+
+void Shape::SetReflectionCoefficient(double reflectionCoefficient)
+{
+	_reflectionCoefficient = reflectionCoefficient;
+}
+
+void Shape::SetShininess(double shininess)
+{
+	_shininess = shininess;
+}
+
 RGBColour Shape::Colour()
 {
 	return _colour;

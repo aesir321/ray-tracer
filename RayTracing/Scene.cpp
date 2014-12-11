@@ -56,7 +56,6 @@ void Scene::SetAmbientCoefficient(double ambientCoefficient)
 	_ambientCoefficient = ambientCoefficient;
 }
 
-//Return BMP object.  Have this passed to a class which does file management?
 void Scene::TraceRays(const char *filename)
 {
 	BMP image;
@@ -142,9 +141,9 @@ RGBColour Scene::TraceRay(Ray ray)
 
 		if (closestShape->ReflectionCoefficient() > 0) //shape is reflective
 		{
-			totalReflectedLight = reflectRays(closestShape, incidentRay);
+			totalReflectedLight = reflectRays(closestShape, incidentRay, 0);
 		}
-		light = ambientLight + illumination(incidentRay, closestShape, shapeColour, ray) + totalReflectedLight / 4.0;
+		light = ambientLight + illumination(incidentRay, closestShape, shapeColour, ray) + totalReflectedLight;
 	}
 	return light;
 }
@@ -220,7 +219,7 @@ RGBColour Scene::specularReflection(LightSource lightSource, double projectionNo
 	return specularLight;
 }
 
-RGBColour Scene::reflectRays(Shape *shape, Ray incidentRay)
+RGBColour Scene::reflectRays(Shape *shape, Ray incidentRay, int depth)
 {
 	RGBColour totalReflectedLight;
 	Vector reflectionSurfaceNormal = shape->SurfaceNormal(incidentRay);
@@ -234,7 +233,7 @@ RGBColour Scene::reflectRays(Shape *shape, Ray incidentRay)
 	}
 
 	int indexOfClosestReflectedShape = getIndexOfClosestShape(reflectionIntersections);
-	if (indexOfClosestReflectedShape != -1)
+	if (indexOfClosestReflectedShape != -1 && reflectionIntersections.at(indexOfClosestReflectedShape) > _epsilon)
 	{
 		Shape *closestReflectedShape = _sceneObjects[indexOfClosestReflectedShape];
 
@@ -244,8 +243,14 @@ RGBColour Scene::reflectRays(Shape *shape, Ray incidentRay)
 			{
 				Vector reflectedIntersectionDirection = reflectedRay.Direction().UnitVector() * reflectionIntersections.at(indexOfClosestReflectedShape);
 				Ray intersectedReflectedRay(reflectedRay.Origin(), reflectedIntersectionDirection);
-				RGBColour reflectedLight = illumination(intersectedReflectedRay, closestReflectedShape, closestReflectedShape->Colour(), reflectedRay);
-				totalReflectedLight = totalReflectedLight + reflectedLight + reflectRays(closestReflectedShape, intersectedReflectedRay);
+
+				RGBColour reflectedLight;
+				if (depth < _maxDepth)
+				{
+					reflectedLight = illumination(intersectedReflectedRay, closestReflectedShape, closestReflectedShape->Colour(), reflectedRay);
+					reflectedLight = reflectedLight + reflectRays(closestReflectedShape, intersectedReflectedRay, depth + 1);
+				}
+				totalReflectedLight = totalReflectedLight + reflectedLight;
 			}
 		}
 	}

@@ -36,10 +36,11 @@ private:
 	//Used for accuracy calculations to control arthimetic errors in performing calculations with small numbers.  
 	//If greater than epsilon point is taken to be the outside of the sphere, if less then the inside.
 	const double _epsilon = 0.0000001;
+	const int _maxDepth = 3; //Do not want to recurse indefinitely!
 
 	RGBColour illumination(Ray incidentRay, Shape *closestShape, RGBColour objectColour, Ray ray);
 	RGBColour specularReflection(LightSource lightSource, double projectionNormalToSource, Shape *closestShape, Ray incidentRay, Ray rayToSource, Ray ray);
-	RGBColour reflectRays(Shape *shape, Ray incidentRay);
+	RGBColour reflectRays(Shape *shape, Ray incidentRay, int depth);
 	int getIndexOfClosestShape(std::vector<double> intersections);
 
 };

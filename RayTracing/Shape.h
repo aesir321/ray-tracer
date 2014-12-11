@@ -17,6 +17,9 @@ public:
 	virtual double Intersection(Ray ray, double epsilon) = 0;
 	Vector Centre();
 	void SetColour(RGBColour colour);
+	void SetDiffuseCoefficient(double diffuseCoefficient);
+	void SetReflectionCoefficient(double reflectiveCoefficient);
+	void SetShininess(double shininess);
 	RGBColour Colour();
 	double DiffuseCoefficient();
 	double ReflectionCoefficient();
