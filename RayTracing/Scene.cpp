@@ -143,7 +143,7 @@ RGBColour Scene::TraceRay(Ray ray)
 		{
 			totalReflectedLight = reflectRays(closestShape, incidentRay);
 		}
-		light = ambientLight + illumination(incidentRay, closestShape, shapeColour, ray) + totalReflectedLight;
+		light = ambientLight + illumination(incidentRay, closestShape, shapeColour, ray) + totalReflectedLight / 4.0;
 	}
 	return light;
 }
