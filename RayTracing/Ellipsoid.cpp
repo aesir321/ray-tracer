@@ -1,7 +1,5 @@
-// Author: Will Parker
 #include "Ellipsoid.h"
-#include <cmath>
-#include <iostream>
+
 
 Ellipsoid::Ellipsoid()
 {

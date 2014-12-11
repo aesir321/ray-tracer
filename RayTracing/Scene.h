@@ -11,20 +11,21 @@
 
 class Scene
 {
- public :
-	  Scene();
-	  Scene(Viewport viewport, Vector observer, std::vector<LightSource> lightSources, std::vector<Shape*> sceneObjects, RGBColour backgroundColour, double ambientCoefficient);
-	  ~Scene();
+public:
 
-	  void Populate(Shape* shape);
-	  void Populate(LightSource lightSource);
-	  void Populate(Vector observer);
-	  void Populate(Viewport viewport);
-	  void TraceRays();
-	  RGBColour TraceRay(Ray ray);	  
-	  void SetAmbientCoefficient(double ambientCoefficient);
+	Scene();
+	Scene(Viewport viewport, Vector observer, std::vector<LightSource> lightSources, std::vector<Shape*> sceneObjects, RGBColour backgroundColour, double ambientCoefficient);
+	~Scene();
 
-private :
+	void Populate(Shape* shape);
+	void Populate(LightSource lightSource);
+	void Populate(Vector observer);
+	void Populate(Viewport viewport);
+	void TraceRays();
+	RGBColour TraceRay(Ray ray);
+	void SetAmbientCoefficient(double ambientCoefficient);
+
+private:
 
 	Viewport _viewport;
 	Vector _observer;
@@ -38,9 +39,9 @@ private :
 
 	RGBColour illumination(Ray incidentRay, Shape *closestShape, RGBColour objectColour, Ray ray);
 	RGBColour specularReflection(LightSource lightSource, double projectionNormalToSource, Shape *closestShape, Ray incidentRay, Ray rayToSource, Ray ray);
-	RGBColour reflectRays(Shape *shape, Ray incidentRay, Ray ray);
-	int getIndexOfClosestShape(std::vector<double> intersections); //should be private
-	
+	RGBColour reflectRays(Shape *shape, Ray incidentRay);
+	int getIndexOfClosestShape(std::vector<double> intersections);
+
 };
 
 #endif

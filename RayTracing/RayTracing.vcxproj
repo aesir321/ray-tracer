@@ -78,7 +78,6 @@
     <ClCompile Include="Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Builder.h" />
     <ClInclude Include="Ellipsoid.h" />
     <ClInclude Include="LightSource.h" />
     <ClInclude Include="Plane.h" />
