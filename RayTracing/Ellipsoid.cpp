@@ -24,7 +24,7 @@ Vector Ellipsoid::SurfaceNormal(Ray ray)
   return Vector();
 }
 
-double Ellipsoid::Intersection(Ray ray)
+double Ellipsoid::Intersection(Ray ray, double epsilon)
 {
 	return 0.0;
 }

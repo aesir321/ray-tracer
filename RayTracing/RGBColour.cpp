@@ -1,13 +1,6 @@
 #include "RGBColour.h"
 #include <algorithm>
 
-/* TODO
-	* Brightness
-	* reflective
-	* shinyness?
-	* How to combine colours
-	*/
-
 RGBColour::RGBColour()
 {
 	_red = 0;
@@ -143,7 +136,7 @@ bool RGBColour::operator==(const RGBColour &rhs)
 
 RGBApixel RGBColour::Normalise()
 {
-	double light = _red + _green + _blue;
+        double light = _red + _green + _blue;
 	double rgbOverflow = light - (255 * 3);
 
 	if (rgbOverflow > 0)

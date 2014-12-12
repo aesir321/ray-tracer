@@ -9,7 +9,7 @@ public :
 	Ellipsoid(double a, double b, double c);
 	~Ellipsoid();
 	Vector SurfaceNormal(Ray ray);
-	double Intersection(Ray ray);
+	double Intersection(Ray ray, double epsilon);
 
 protected :
 	double _a;

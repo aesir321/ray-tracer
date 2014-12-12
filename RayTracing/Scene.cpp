@@ -74,7 +74,8 @@ void Scene::TraceRays(const char *filename)
 
 			Ray ray(_observer, direction);
 
-			image.SetPixel(x, y, TraceRay(ray).Normalise());			
+			image.SetPixel(x, y, TraceRay(ray).Normalise());
+			
 		}
 	}
 
@@ -138,12 +139,12 @@ RGBColour Scene::TraceRay(Ray ray)
 		RGBColour shapeColour = closestShape->Colour();
 		RGBColour totalReflectedLight;
 		ambientLight = shapeColour * _ambientCoefficient;
-
+		
 		if (closestShape->ReflectionCoefficient() > 0) //shape is reflective
 		{
 			totalReflectedLight = reflectRays(closestShape, incidentRay, 0);
 		}
-		light = ambientLight + illumination(incidentRay, closestShape, shapeColour, ray) + totalReflectedLight;
+		light = ambientLight  + illumination(incidentRay, closestShape, shapeColour, ray) + totalReflectedLight;
 	}
 	return light;
 }
