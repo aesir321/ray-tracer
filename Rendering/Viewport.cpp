@@ -10,11 +10,11 @@ Viewport::Viewport()
   _centre = Vector(0, 0, 10);
 }
 
-Viewport::Viewport(double width, double height, int numberxPixels, int numberYPixels, Vector centre)
+Viewport::Viewport(double width, double height, int numberXPixels, int numberYPixels, Vector centre)
 {
   _width = width;
   _height = height;
-  _numberXPixels = numberxPixels;
+  _numberXPixels = numberXPixels;
   _numberYPixels = numberYPixels;
   _centre = centre;
 }

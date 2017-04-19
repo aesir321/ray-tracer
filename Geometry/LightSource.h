@@ -2,7 +2,7 @@
 #define LSOURCE_H
 
 #include "Vector.h"
-#include "../RGBColour.h"
+#include "../Rendering/RGBColour.h"
 
 class LightSource
 {

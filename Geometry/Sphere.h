@@ -4,7 +4,7 @@
 #include "Ellipsoid.h"
 #include "Vector.h"
 #include "Ray.h"
-#include "../RGBColour.h"
+#include "../Rendering/RGBColour.h"
 
 class Sphere : public Ellipsoid
 {

@@ -1,7 +1,7 @@
 #ifndef RGBC_H
 #define RGBC_H
 
-#include "EasyBMP/EasyBMP.h"
+#include "../EasyBMP/EasyBMP.h"
 
 class RGBColour
 {

@@ -1,8 +1,8 @@
 #ifndef VIEWPORT_H
 #define VIEWPORT_H
 
-#include "Geometry/Ray.h"
-#include "Geometry/Sphere.h"
+#include "../Geometry/Ray.h"
+#include "../Geometry/Sphere.h"
 
 class Viewport
 {
