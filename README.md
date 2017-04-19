@@ -6,6 +6,9 @@ This is a ray tracing application written for my final project C++ course.  It u
 
 ### How do I get set up? ###
 
-* Clone the repository and then run main.cpp to launch the program.
+* Clone the repository.
+* Switch to the directory ray-tracer in terminal.
+* Compile the program by running the "make" in the terminal.
+* Run the program by executing the command "./ray-tracer".
 * Basic shapes and images can be created by modifying the values in the various renderSceneMethods().
 
