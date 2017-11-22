@@ -1,15 +1,15 @@
 #include "Scene.h"
-#include "Geometry/Ray.h"
-#include "Geometry/Shape.h"
+#include "../Geometry/Ray.h"
+#include "../Geometry/Shape.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 
-#include "EasyBMP/EasyBMP.h"
-#include "EasyBMP/EasyBMP_BMP.h"
-#include "EasyBMP/EasyBMP_DataStructures.h"
-#include "EasyBMP/EasyBMP_VariousBMPutilities.h"
-#include "EasyBMP/EasyBMP.cpp"
+#include "../EasyBMP/EasyBMP.h"
+#include "../EasyBMP/EasyBMP_BMP.h"
+#include "../EasyBMP/EasyBMP_DataStructures.h"
+#include "../EasyBMP/EasyBMP_VariousBMPutilities.h"
+#include "../EasyBMP/EasyBMP.cpp"
 
 Scene::Scene()
 {
@@ -28,7 +28,10 @@ Scene::Scene(Viewport viewport, Vector observer, std::vector<LightSource> lightS
 
 Scene::~Scene()
 {
-
+  // Free up memory as vectors are actually created on the stack
+  // but stored on the heap.
+  _lightSources = std::vector<LightSource>();
+  _sceneObjects = std::vector<Shape*>(_sceneObjects);
 }
 
 void Scene::Populate(LightSource lightSource)

@@ -14,34 +14,34 @@ void renderSceneOne()
 	double specularIntensity = 0.4;
 	double diffuseIntensity = 0.8;
 
-	Vector lightSourcePosition(-100, -10, -100);
-	RGBColour white(255, 255, 255);
-	LightSource pointLightSource(lightSourcePosition, white, specularIntensity, diffuseIntensity);
+	//Vector lightSourcePosition(-100, -10, -100);
+	//RGBColour white(255, 255, 255);
+	//LightSource pointLightSource(lightSourcePosition, white, specularIntensity, diffuseIntensity);
 
 	Vector lightSourcePosition2(100, -100, 120);
 	RGBColour red(255, 255, 255);
 	LightSource pointLightSource2(lightSourcePosition2, red, specularIntensity, diffuseIntensity);
 
 	Scene scene;
-	scene.Populate(pointLightSource);
+	//scene.Populate(pointLightSource);
 	scene.Populate(pointLightSource2);
 	scene.Populate(observer);
 	scene.SetAmbientCoefficient(0.3);
 
 	double shininess = 20;
 	double diffuseCoeffcient = 0.9;
-	double reflectiveCoefficient = 0.4;
+	double reflectiveCoefficient = 1;
 
 	Vector spherePos(-9, 7, 50);
-	Sphere *sphere = new Sphere(spherePos, 5, diffuseCoeffcient, reflectiveCoefficient, shininess, RGBColour(0, 255, 0));
+	Sphere *sphere = new Sphere(spherePos, 5, 0.2, 0.2, shininess, RGBColour(0, 255, 0));
 	scene.Populate(sphere);
 
 	Vector spherePos2(0, 0, 100);
-	Sphere *sphere2 = new Sphere(spherePos2, 15, diffuseCoeffcient, reflectiveCoefficient, shininess, RGBColour(255, 0, 0));
+	Sphere *sphere2 = new Sphere(spherePos2, 15, diffuseCoeffcient, 0.4, shininess, RGBColour(255, 0, 0));
 	scene.Populate(sphere2);
 
 	Vector spherePos3(20, 10, 80);
-	Sphere *sphere3 = new Sphere(spherePos3, 5, diffuseCoeffcient, reflectiveCoefficient, shininess, RGBColour(0, 0, 255));
+	Sphere *sphere3 = new Sphere(spherePos3, 5, diffuseCoeffcient, 0.6, shininess, RGBColour(0, 0, 255));
 	scene.Populate(sphere3);
 
 	Vector viewportOriginPosition(0, 0, 10);
