@@ -1,7 +1,7 @@
-#include "Scene.h"
+#include "Rendering/Scene.h"
 #include "Geometry/Ray.h"
 #include "Geometry/Sphere.h"
-#include "Viewport.h"
+#include "Rendering/Viewport.h"
 #include "Geometry/Plane.h"
 
 using namespace std;
@@ -32,7 +32,7 @@ void renderSceneOne()
 	double diffuseCoeffcient = 0.9;
 	double reflectiveCoefficient = 0.4;
 
-	Vector spherePos(-7, 7, 80);
+	Vector spherePos(-9, 7, 50);
 	Sphere *sphere = new Sphere(spherePos, 5, diffuseCoeffcient, reflectiveCoefficient, shininess, RGBColour(0, 255, 0));
 	scene.Populate(sphere);
 
@@ -40,17 +40,17 @@ void renderSceneOne()
 	Sphere *sphere2 = new Sphere(spherePos2, 15, diffuseCoeffcient, reflectiveCoefficient, shininess, RGBColour(255, 0, 0));
 	scene.Populate(sphere2);
 
-	Vector spherePos3(10, 10, 80);
+	Vector spherePos3(20, 10, 80);
 	Sphere *sphere3 = new Sphere(spherePos3, 5, diffuseCoeffcient, reflectiveCoefficient, shininess, RGBColour(0, 0, 255));
 	scene.Populate(sphere3);
 
 	Vector viewportOriginPosition(0, 0, 10);
-	Viewport viewport(5, 5, 500, 500, viewportOriginPosition);
+	Viewport viewport(5, 5, 10000, 10000, viewportOriginPosition);
 	scene.Populate(viewport);
 
 	scene.TraceRays("varying-sized-spheres.bmp");
 }
-
+/*
 void renderSceneTwo()
 {
 	Vector observer(0, 0, 0);
@@ -151,13 +151,12 @@ void renderSceneThree()
 	scene.Populate(viewport);
 
 	scene.TraceRays("reflecting-coloured-spheres.bmp");
-}
+	}*/
 
 int main()
 {
     renderSceneOne();
-  	renderSceneTwo();
-  	renderSceneThree();
-  
-	return 0;
+    //renderSceneTwo();
+    //renderSceneThree();
+    return 0;
 }
