@@ -2,7 +2,7 @@
 
 ### What is this repository for? ###
 
-This is a ray tracing application written for my final project C++ course.  It utilises basic physics and vector maths to create images of simple shapes, by following the path a ray of light would take.
+A serial ray tracer written in C++ from scratch.  
 
 ### How do I get set up? ###
 
